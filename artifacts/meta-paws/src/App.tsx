@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   ArrowDownRight,
@@ -26,11 +26,6 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import catHero from '@assets/1788713757627_1788808724547.png';
 import catBadge from '@assets/20260906_173531_1788808708585.jpg';
-import presaleVisual from '@assets/images_08-09-2026_00-26-33_1788814143553.jpeg';
-import featuresVisual from '@assets/images_08-09-2026_01-12-56_1788814169908.jpeg';
-import tokenomicsVisual from '@assets/images_08-09-2026_00-27-51_1788814192644.jpeg';
-import airdropVisual from '@assets/images_08-09-2026_01-13-11_1788814224365.jpeg';
-import roadmapVisual from '@assets/professional-infographic-design-with-5-steps-idea-research-pla_1788814239485.jpg';
 
 const queryClient = new QueryClient();
 const PRESALE_TARGET = '2026-10-05T09:43:13Z';
@@ -91,14 +86,17 @@ function Countdown({ compact = false }: { compact?: boolean }) {
     const interval = window.setInterval(() => setLeft(timeLeft()), 1000);
     return () => window.clearInterval(interval);
   }, []);
+  const units = Object.entries(left);
   return (
     <div className={compact ? 'mt-0' : 'mt-8'} role="status" aria-live="polite" aria-label="Live presale countdown" data-testid="countdown-presale">
       <p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#b9a7d2]">Presale starts in</p>
-      <div className={`mt-3 flex gap-2 ${compact ? 'justify-center sm:gap-3' : ''}`}>
-        {Object.entries(left).map(([unit, value]) => (
-          <div key={unit} className={`glass rounded-2xl px-2 py-3 text-center ${compact ? 'min-w-[54px] bg-[#15153c]/75 sm:min-w-[67px]' : 'min-w-[59px] sm:min-w-[72px]'}`} data-testid={`countdown-${unit}`}>
-            <div className={`font-display font-bold leading-none text-[#f8efff] ${compact ? 'text-[20px] sm:text-[24px]' : 'text-[23px]'}`}>{String(value).padStart(2, '0')}</div>
-            <div className="mt-1 font-mono-custom text-[8px] uppercase tracking-[.12em] text-[#b9a7d2]">{unit}</div>
+      <div className={`countdown-rings mt-4 ${compact ? 'countdown-rings--compact' : ''}`}>
+        {units.map(([unit, value], index) => (
+          <div key={unit} className="countdown-ring-wrap" data-testid={`countdown-${unit}`}>
+            <div className="countdown-ring" style={{ '--ring-progress': `${Math.max(18, 100 - index * 16)}%` } as CSSProperties}>
+              <div className="countdown-ring__value">{String(value).padStart(2, '0')}</div>
+            </div>
+            <div className="countdown-ring__label">{unit}</div>
           </div>
         ))}
       </div>
@@ -149,18 +147,14 @@ function Hero() {
           </div>
           <Countdown />
         </div>
-        <div className="relative flex min-h-[460px] items-center justify-center lg:min-h-[590px]" data-testid="hero-art">
+         <div className="relative flex min-h-[460px] items-center justify-center lg:min-h-[590px]" data-testid="hero-art">
           <div className="orbit absolute h-[370px] w-[370px] border-dashed border-[#b98bff]/25 sm:h-[500px] sm:w-[500px]" />
           <div className="orbit absolute h-[260px] w-[260px] border-[#71ddff]/25 sm:h-[370px] sm:w-[370px]" />
           <div className="absolute h-[230px] w-[230px] rounded-full bg-[#7754d4]/25 blur-3xl sm:h-[340px] sm:w-[340px]" />
-           <div className="reference-frame relative z-10 w-full max-w-[510px] rotate-[2deg] p-3 sm:p-4" data-testid="hero-presale-panel">
-             <div className="reference-paper relative h-[290px] sm:h-[380px]">
-               <img src={presaleVisual} alt="Countdown rings visual for the Meta Paws presale" className="h-full w-full object-cover" data-testid="img-presale-visual" />
-               <div className="absolute inset-0 bg-gradient-to-t from-[#111033]/85 via-transparent to-[#261952]/10" />
-               <div className="anchor-meta left-4 top-4 rounded-full px-3 py-1.5 font-mono-custom text-[8px] uppercase tracking-[.16em] text-[#eaf4ff]">presale / live signal</div>
-               <div className="absolute inset-x-3 bottom-4 z-10 sm:inset-x-5 sm:bottom-5"><Countdown compact /></div>
-             </div>
-             <div className="flex items-center justify-between px-1 pt-3 font-mono-custom text-[8px] uppercase tracking-[.13em] text-[#b9a8cf]"><span>MPAW / countdown archive</span><span className="text-[#74defb]">01 — 05</span></div>
+           <div className="countdown-hero-panel relative z-10 w-full max-w-[530px] rotate-[2deg]" data-testid="hero-presale-panel">
+             <div className="countdown-hero-panel__header"><span>presale / live signal</span><Sparkles size={13} /></div>
+             <div className="countdown-hero-panel__rings"><Countdown compact /></div>
+             <div className="countdown-hero-panel__footer"><span>MPAW / countdown archive</span><span className="text-[#74defb]">01 — 05</span></div>
            </div>
            <div className="image-card float absolute bottom-[3%] left-[1%] z-20 w-[112px] rotate-[-10deg] bg-[#28184d] p-1.5 sm:bottom-[5%] sm:left-[2%] sm:w-[148px]">
              <img src={catHero} alt="Meta Paws cat mascot wearing sunglasses" className="h-[136px] w-full rounded-[1.2rem] object-cover sm:h-[178px]" data-testid="img-hero-mascot" />
@@ -182,25 +176,28 @@ function Features() {
       <div className="absolute -right-36 top-16 h-[430px] w-[430px] rounded-full bg-[#7642aa]/15 blur-3xl" />
       <div className="relative mx-auto max-w-[1120px]">
         <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#73ddfa]">01 / the night garden</p><h2 className="mt-4 font-display text-[48px] font-bold leading-[.9] tracking-[-.08em] text-[#fbf3ff] sm:text-[70px]">Good things<br /><span className="text-[#e9a4dd]">grow here.</span></h2></div><p className="max-w-[310px] text-[14px] leading-[1.75] text-[#b5a3cd]">A playful ecosystem built around chance, care, and a community that knows how to have fun.</p></div>
-        <div className="grid gap-5 lg:grid-cols-[.72fr_1.28fr] lg:items-stretch">
-          <div className="reference-frame feature-stage p-3 sm:p-4" data-testid="feature-visual-module">
-            <div className="reference-paper relative h-[270px] sm:h-[360px] lg:h-full lg:min-h-[560px]">
-              <img src={featuresVisual} alt="Four-part ecosystem infographic reference for Meta Paws features" className="h-full w-full object-cover" data-testid="img-features-visual" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#171139]/80 via-transparent to-[#eef4fa]/5" />
-              <div className="anchor-meta bottom-4 left-4 rounded-xl px-3 py-2 font-mono-custom text-[8px] uppercase tracking-[.13em] text-[#ecddf6]">ecosystem / four signals</div>
-            </div>
-            <div className="flex items-center justify-between px-1 pt-3 font-mono-custom text-[8px] uppercase tracking-[.13em] text-[#a797bc]"><span>chance · care · clarity</span><span className="text-[#75ddff]">MPAW / 01</span></div>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return <article key={feature.title} className="glass group relative overflow-hidden rounded-[2rem] p-5 transition-transform duration-500 hover:-translate-y-1 sm:p-6" data-testid={`card-feature-${index + 1}`}>
-                <div className="mb-7 flex items-center justify-between"><div className={`grid h-14 w-14 place-items-center rounded-2xl border ${feature.accent === 'cyan' ? 'border-[#70e2ff]/35 bg-[#64dcff]/10 text-[#70e2ff]' : feature.accent === 'pink' ? 'border-[#f1a4de]/35 bg-[#eb9cdd]/10 text-[#f1a4de]' : feature.accent === 'gold' ? 'border-[#f6d47f]/35 bg-[#f3d47d]/10 text-[#f6d47f]' : 'border-[#ac93ff]/35 bg-[#9a80ff]/10 text-[#ac93ff]'}`}><Icon size={26} strokeWidth={1.4} /></div><span className="font-mono-custom text-[9px] text-[#8f80aa]">0{index + 1}</span></div>
-                <div className="font-mono-custom text-[9px] uppercase tracking-[.17em] text-[#9f8ab9]">feature / signal</div><h3 className="mt-3 font-display text-[25px] font-bold tracking-[-.05em] text-[#f8edff]">{feature.title}</h3><p className="mt-3 text-[13px] leading-[1.7] text-[#b9a8cf]">{feature.copy}</p><button onClick={() => scrollToId('#contact')} className="mt-5 inline-flex items-center rounded-full border border-white/20 bg-white/5 px-4 py-2.5 font-display text-[10px] font-bold uppercase tracking-[.1em] text-[#eadef7] transition hover:border-[#76defb]/60 hover:text-[#76defb]" data-testid={`button-feature-${index + 1}`}>Learn more <ArrowUpRight size={13} className="ml-1" /></button>
-              </article>;
-            })}
-          </div>
-        </div>
+         <div className="feature-infographic" data-testid="feature-visual-module">
+           <div className="feature-infographic__connector feature-infographic__connector--vertical" />
+           <div className="feature-infographic__connector feature-infographic__connector--horizontal" />
+           <div className="feature-hub">
+             <div className="feature-hub__icon"><PawPrint size={28} /></div>
+             <span className="font-mono-custom text-[9px] uppercase tracking-[.16em] text-[#f8efff]">Meta Paws</span>
+             <strong className="font-display text-[20px] leading-none text-[#74defb]">ecosystem</strong>
+             <div className="mt-3 flex gap-1.5"><i className="signal-dot signal-dot--cyan" /><i className="signal-dot signal-dot--pink" /><i className="signal-dot signal-dot--gold" /><i className="signal-dot signal-dot--violet" /></div>
+           </div>
+           <div className="feature-infographic__grid">
+             {features.map((feature, index) => {
+               const Icon = feature.icon;
+               return <article key={feature.title} className={`feature-blueprint feature-blueprint--${feature.accent}`} data-testid={`card-feature-${index + 1}`}>
+                 <div className="feature-blueprint__cap"><span className="feature-blueprint__index">0{index + 1}</span><Icon size={23} strokeWidth={1.5} /></div>
+                 <div className="font-mono-custom text-[9px] uppercase tracking-[.17em] text-[#a999be]">feature / signal</div>
+                 <h3 className="mt-2 font-display text-[23px] font-bold tracking-[-.05em] text-[#f8edff]">{feature.title}</h3>
+                 <p className="mt-2 text-[13px] leading-[1.65] text-[#b9a8cf]">{feature.copy}</p>
+                 <button onClick={() => scrollToId('#contact')} className="mt-4 inline-flex items-center rounded-full border border-white/20 bg-white/5 px-4 py-2 font-display text-[10px] font-bold uppercase tracking-[.1em] text-[#eadef7] transition hover:border-[#76defb]/60 hover:text-[#76defb]" data-testid={`button-feature-${index + 1}`}>Learn more <ArrowUpRight size={13} className="ml-1" /></button>
+               </article>;
+             })}
+           </div>
+         </div>
       </div>
     </section>
   );
@@ -210,16 +207,17 @@ function Tokenomics() {
   return (
     <section id="tokenomics" className="section-dusk line-art px-5 py-24 sm:px-8 lg:py-32" data-testid="section-tokenomics">
       <div className="mx-auto max-w-[1240px]"><div className="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#f0b2e3]">02 / receipts on the table</p><h2 className="mt-4 font-display text-[48px] font-bold leading-[.9] tracking-[-.08em] text-[#f8efff] sm:text-[69px]">Transparent<br /><span className="text-[#74defb]">by design.</span></h2></div><p className="max-w-[340px] text-[14px] leading-[1.75] text-[#b9a9cf]">10,000,000,000 MPAW total supply. Every category has a job, and every number is right here.</p></div>
-        <div className="mt-12 grid gap-5 lg:grid-cols-[1.04fr_.96fr]">
-          <div className="reference-frame token-stage p-3 sm:p-4" data-testid="tokenomics-visual-module">
-            <div className="reference-paper relative h-[300px] sm:h-[410px]">
-              <img src={tokenomicsVisual} alt="Token allocation wheel reference for Meta Paws tokenomics" className="h-full w-full object-cover" data-testid="img-tokenomics-visual" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#111033]/78 via-transparent to-[#f4f8ff]/5" />
-              <div className="anchor-meta left-4 top-4 rounded-full px-3 py-1.5 font-mono-custom text-[8px] uppercase tracking-[.15em] text-[#f4e9ff]">allocation map / fixed supply</div>
-              <div className="absolute inset-x-4 bottom-4 z-10"><div className="flex h-3 overflow-hidden rounded-full border border-white/30 bg-[#13102f]/70" data-testid="allocation-bar">{allocations.map((item) => <span key={item.label} style={{ width: `${item.value}%`, backgroundColor: item.color }} />)}</div></div>
-            </div>
-            <div className="flex items-center justify-between px-1 pt-3 font-mono-custom text-[8px] uppercase tracking-[.13em] text-[#a797bc]"><span>six locked lanes</span><span className="text-[#f7d27c]">10B MPAW</span></div>
-          </div>
+         <div className="mt-12 grid gap-5 lg:grid-cols-[1.04fr_.96fr]">
+           <div className="tokenomics-board" data-testid="tokenomics-visual-module">
+             <div className="tokenomics-board__eyebrow">allocation map / fixed supply</div>
+             <div className="token-wheel" data-testid="allocation-bar">
+               <div className="token-wheel__core"><PawPrint size={26} /><strong>MPAW</strong><span>10B supply</span></div>
+             </div>
+             <div className="tokenomics-board__labels">
+               {allocations.slice(0, 6).map((item, index) => <div className="token-chip" key={item.label} style={{ '--chip-color': item.color } as CSSProperties}><span>{String(index + 1).padStart(2, '0')}</span><b>{item.label}</b><strong>{item.value}%</strong></div>)}
+             </div>
+             <div className="flex items-center justify-between px-1 pt-5 font-mono-custom text-[8px] uppercase tracking-[.13em] text-[#a797bc]"><span>six locked lanes</span><span className="text-[#f7d27c]">10B MPAW</span></div>
+           </div>
           <div className="glass rounded-[2rem] p-5 sm:p-7"><div className="flex items-center justify-between"><span className="font-mono-custom text-[9px] uppercase tracking-[.17em] text-[#a999be]">total supply</span><span className="rounded-full bg-[#f5d77e]/15 px-3 py-1 font-mono-custom text-[9px] font-bold text-[#f7d27c]">fixed</span></div><p className="mt-4 font-display text-[38px] font-bold tracking-[-.08em] text-[#f8efff] sm:text-[53px]" data-testid="text-total-supply">10,000,000,000</p><p className="font-mono-custom text-[10px] uppercase tracking-[.12em] text-[#a999be]">MPAW tokens</p><p className="mt-6 max-w-[410px] text-[13px] leading-relaxed text-[#b5a4ca]">No hidden allocations. No team dump. Just a clear plan for the community.</p><div className="mt-7 space-y-2.5">{allocations.map((item, index) => <div key={item.label} className="glass flex items-center gap-4 rounded-2xl p-4 transition hover:bg-white/10 sm:p-5" data-testid={`row-allocation-${index + 1}`}><div className="h-10 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: item.color }} /><div className="min-w-0 flex-1"><div className="flex items-baseline justify-between gap-3"><h3 className="font-display text-[15px] font-bold text-[#f5eaff]">{item.label}</h3><strong className="font-display text-[20px] text-[#f5eaff]">{item.value}%</strong></div><p className="mt-1 font-mono-custom text-[9px] uppercase tracking-[.12em] text-[#9f8db5]">{item.amount} tokens</p></div></div>)}</div></div>
         </div>
       </div>
@@ -228,11 +226,11 @@ function Tokenomics() {
 }
 
 function Roadmap() {
-  return <section id="roadmap" className="section-night relative px-5 py-24 sm:px-8 lg:py-32" data-testid="section-roadmap"><div className="mx-auto max-w-[1240px]"><div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#74defb]">03 / where we're going</p><h2 className="mt-4 font-display text-[48px] font-bold leading-[.9] tracking-[-.08em] text-[#f9efff] sm:text-[68px]">A roadmap with<br /><span className="text-[#efa6df]">real pawprints.</span></h2></div><p className="max-w-[300px] text-[14px] leading-[1.75] text-[#b9a7d2]">One playful step at a time, with the community along for the ride.</p></div><div className="mt-14 grid gap-5 lg:grid-cols-[.82fr_1.18fr] lg:items-stretch"><div className="reference-frame roadmap-stage p-3 sm:p-4" data-testid="roadmap-visual-module"><div className="reference-paper relative h-[330px] sm:h-[460px] lg:h-full lg:min-h-[560px]"><img src={roadmapVisual} alt="Connected progression infographic reference for the Meta Paws roadmap" className="h-full w-full object-cover" data-testid="img-roadmap-visual" /><div className="absolute inset-0 bg-gradient-to-t from-[#111033]/78 via-transparent to-[#f7f7fa]/5" /><div className="anchor-meta bottom-4 left-4 rounded-xl px-3 py-2 font-mono-custom text-[8px] uppercase tracking-[.13em] text-[#ecddf6]">progression / one paw at a time</div></div><div className="flex items-center justify-between px-1 pt-3 font-mono-custom text-[8px] uppercase tracking-[.13em] text-[#a797bc]"><span>signal → action → world</span><span className="text-[#74defb]">MPAW / 03</span></div></div><div className="grid gap-4 sm:grid-cols-2">{roadmap.map(({ phase, title, copy, icon: Icon }, index) => <div key={phase} className="glass group rounded-[1.7rem] p-5 transition-transform duration-500 hover:-translate-y-1" data-testid={`card-roadmap-${phase}`}><div className="mb-8 flex items-start justify-between"><div className={`grid h-11 w-11 place-items-center rounded-xl border ${index === 0 ? 'border-[#74defb]/60 bg-[#74defb]/15 text-[#74defb]' : 'border-[#e9a4dd]/50 bg-[#e9a4dd]/10 text-[#e9a4dd]'}`}><Icon size={19} /></div><span className="font-mono-custom text-[9px] text-[#9c8baa]">PHASE {phase}</span></div><div className={`progress-line progress-${index + 1} mb-5`} /><h3 className="font-display text-[21px] font-bold leading-tight text-[#f9efff]">{title}</h3><p className="mt-3 min-h-[67px] text-[13px] leading-[1.6] text-[#b3a1c8]">{copy}</p><div className="mt-5 flex items-center gap-2 font-mono-custom text-[9px] uppercase tracking-[.12em] text-[#75ddff]">{index === 0 ? <><Check size={13} /> in motion</> : <>next horizon <ArrowDownRight size={13} /></>}</div></div>)}</div></div></div></section>;
+  return <section id="roadmap" className="section-night relative px-5 py-24 sm:px-8 lg:py-32" data-testid="section-roadmap"><div className="mx-auto max-w-[1240px]"><div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#74defb]">03 / where we're going</p><h2 className="mt-4 font-display text-[48px] font-bold leading-[.9] tracking-[-.08em] text-[#f9efff] sm:text-[68px]">A roadmap with<br /><span className="text-[#efa6df]">real pawprints.</span></h2></div><p className="max-w-[300px] text-[14px] leading-[1.75] text-[#b9a7d2]">One playful step at a time, with the community along for the ride.</p></div><div className="roadmap-layout mt-14" data-testid="roadmap-visual-module"><div className="roadmap-graphic"><div className="roadmap-graphic__rail" />{roadmap.map(({ phase, title, icon: Icon }, index) => <div className={`roadmap-step roadmap-step--${index + 1}`} key={phase}><div className="roadmap-step__number">{phase}</div><div className="roadmap-step__icon"><Icon size={19} /></div><div><strong>{title}</strong><span>{index === 0 ? 'in motion' : 'next horizon'}</span></div></div>)}</div><div className="roadmap-copy-grid">{roadmap.map(({ phase, title, copy, icon: Icon }, index) => <article key={phase} className="glass roadmap-copy-card" data-testid={`card-roadmap-${phase}`}><div className="flex items-start justify-between"><div className={`grid h-11 w-11 place-items-center rounded-xl border ${index === 0 ? 'border-[#74defb]/60 bg-[#74defb]/15 text-[#74defb]' : 'border-[#e9a4dd]/50 bg-[#e9a4dd]/10 text-[#e9a4dd]'}`}><Icon size={19} /></div><span className="font-mono-custom text-[9px] text-[#9c8baa]">PHASE {phase}</span></div><div className={`progress-line progress-${index + 1} mt-7`} /><h3 className="mt-5 font-display text-[21px] font-bold leading-tight text-[#f9efff]">{title}</h3><p className="mt-3 text-[13px] leading-[1.6] text-[#b3a1c8]">{copy}</p></article>)}</div></div></div></section>;
 }
 
  function Airdrop() {
-  return <section id="airdrop" className="section-rose relative overflow-hidden px-5 py-24 sm:px-8 lg:py-32" data-testid="section-airdrop"><div className="absolute -right-36 -top-36 h-[500px] w-[500px] rounded-full border-[1px] border-[#ef9edc]/20 shadow-[0_0_100px_rgba(239,158,220,.12)]" /><div className="absolute -bottom-48 -left-48 h-[520px] w-[520px] rounded-full border-[1px] border-[#71defd]/20" /><div className="relative mx-auto max-w-[1240px]"><div className="grid gap-12 lg:grid-cols-[1fr_.95fr] lg:items-center"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#74defb]">04 / early supporter rewards</p><h2 className="mt-4 max-w-[650px] font-display text-[49px] font-bold leading-[.9] tracking-[-.08em] text-[#f9efff] sm:text-[72px]">Airdrop —<br /><span className="text-[#efa5df]">Early Supporters</span></h2><p className="mt-6 max-w-[500px] text-[15px] leading-[1.75] text-[#c2b1d3]">Only 5,000 spots available. Complete tasks to earn free MPAW.</p><p className="mt-5 max-w-[500px] text-[15px] leading-[1.75] text-[#c2b1d3]">Top 10 referrers get <strong className="text-[#f7d27c]">3,000,000 MPAW each!</strong></p><div className="reference-frame tier-stage mt-9 max-w-[560px] p-3 sm:p-4" data-testid="airdrop-visual-module"><div className="reference-paper relative h-[250px] sm:h-[340px]"><img src={airdropVisual} alt="Four reward tier progression reference for the Meta Paws airdrop" className="h-full w-full object-cover" data-testid="img-airdrop-visual" /><div className="absolute inset-0 bg-gradient-to-t from-[#171037]/72 via-transparent to-[#f7f7fa]/5" /><div className="anchor-meta bottom-4 left-4 rounded-xl px-3 py-2 font-mono-custom text-[8px] uppercase tracking-[.13em] text-[#ecddf6]">reward ladder / 5,000 spots</div></div><div className="flex items-center justify-between px-1 pt-3 font-mono-custom text-[8px] uppercase tracking-[.13em] text-[#a797bc]"><span>early signal → free MPAW</span><span className="text-[#efa5df]">MPAW / 04</span></div></div></div><div className="glass glow-pink rounded-[2rem] p-5 sm:p-7"><div className="flex items-center justify-between"><span className="font-mono-custom text-[9px] uppercase tracking-[.15em] text-[#b9a4c6]">reward tiers</span><Gift size={22} className="text-[#f2a4de]" /></div><div className="mt-5 space-y-2">{[['First 1,000', '50,000 MPAW'], ['Next 1,000', '25,000 MPAW'], ['Next 1,000', '12,500 MPAW'], ['Next 2,000', '6,250 MPAW']].map(([tier, reward], i) => <div key={`${tier}-${i}`} className={`flex items-center gap-3 rounded-xl border p-3 ${i === 0 ? 'border-[#75ddff]/40 bg-[#75ddff]/10' : 'border-white/10 bg-white/5'}`} data-testid={`row-airdrop-tier-${i + 1}`}><div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#24163e] font-mono-custom text-[10px] font-bold text-[#74defb]">0{i + 1}</div><p className="flex-1 font-display text-[13px] font-bold text-[#f7ecff]">{tier}</p><strong className="font-mono-custom text-[9px] text-[#74defb]">{reward}</strong></div>)}</div><a href={externalLinks.form} target="_blank" rel="noreferrer" className="button-glow mt-6 flex w-full items-center justify-center rounded-full bg-[#75ddff] px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.08em] text-[#201137]" data-testid="link-airdrop-form">I want to be among the first <ArrowUpRight size={15} className="ml-1" /></a></div></div></div></section>;
+  return <section id="airdrop" className="section-rose relative overflow-hidden px-5 py-24 sm:px-8 lg:py-32" data-testid="section-airdrop"><div className="absolute -right-36 -top-36 h-[500px] w-[500px] rounded-full border-[1px] border-[#ef9edc]/20 shadow-[0_0_100px_rgba(239,158,220,.12)]" /><div className="absolute -bottom-48 -left-48 h-[520px] w-[520px] rounded-full border-[1px] border-[#71defd]/20" /><div className="relative mx-auto max-w-[1240px]"><div className="grid gap-12 lg:grid-cols-[1fr_.95fr] lg:items-center"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#74defb]">04 / early supporter rewards</p><h2 className="mt-4 max-w-[650px] font-display text-[49px] font-bold leading-[.9] tracking-[-.08em] text-[#f9efff] sm:text-[72px]">Airdrop —<br /><span className="text-[#efa5df]">Early Supporters</span></h2><p className="mt-6 max-w-[500px] text-[15px] leading-[1.75] text-[#c2b1d3]">Only 5,000 spots available. Complete tasks to earn free MPAW.</p><p className="mt-5 max-w-[500px] text-[15px] leading-[1.75] text-[#c2b1d3]">Top 10 referrers get <strong className="text-[#f7d27c]">3,000,000 MPAW each!</strong></p><div className="airdrop-ladder mt-9" data-testid="airdrop-visual-module"><div className="airdrop-ladder__line" />{[['First 1,000', '50,000 MPAW'], ['Next 1,000', '25,000 MPAW'], ['Next 1,000', '12,500 MPAW'], ['Next 2,000', '6,250 MPAW']].map(([tier, reward], index) => <div className={`airdrop-step airdrop-step--${index + 1}`} key={`${tier}-${index}`}><div className="airdrop-step__number">{index + 1}</div><div className="airdrop-step__copy"><strong>{tier}</strong><span>{reward}</span></div><div className="airdrop-step__spark">{index === 0 ? <Gift size={18} /> : <Sparkles size={17} />}</div></div>)}</div></div><div className="glass glow-pink rounded-[2rem] p-5 sm:p-7"><div className="flex items-center justify-between"><span className="font-mono-custom text-[9px] uppercase tracking-[.15em] text-[#b9a4c6]">reward tiers</span><Gift size={22} className="text-[#f2a4de]" /></div><div className="mt-5 space-y-2">{[['First 1,000', '50,000 MPAW'], ['Next 1,000', '25,000 MPAW'], ['Next 1,000', '12,500 MPAW'], ['Next 2,000', '6,250 MPAW']].map(([tier, reward], i) => <div key={`${tier}-${i}`} className={`flex items-center gap-3 rounded-xl border p-3 ${i === 0 ? 'border-[#75ddff]/40 bg-[#75ddff]/10' : 'border-white/10 bg-white/5'}`} data-testid={`row-airdrop-tier-${i + 1}`}><div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#24163e] font-mono-custom text-[10px] font-bold text-[#74defb]">0{i + 1}</div><p className="flex-1 font-display text-[13px] font-bold text-[#f7ecff]">{tier}</p><strong className="font-mono-custom text-[9px] text-[#74defb]">{reward}</strong></div>)}</div><a href={externalLinks.form} target="_blank" rel="noreferrer" className="button-glow mt-6 flex w-full items-center justify-center rounded-full bg-[#75ddff] px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.08em] text-[#201137]" data-testid="link-airdrop-form">I want to be among the first <ArrowUpRight size={15} className="ml-1" /></a></div></div></div></section>;
 }
 
 function Contact() {
