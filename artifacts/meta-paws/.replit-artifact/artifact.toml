@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Meta Paws"
+description = "A playful, responsive landing page for Meta Paws, a meme cryptocurrency with daily lottery rewards, pet charity, transparent tokenomics, and an early-supporter airdrop."
+version = "1.0.0"
+id = "artifacts/meta-paws"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20848
+
+[services.development]
+run = "pnpm --filter @workspace/meta-paws run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/meta-paws", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/meta-paws/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20848"
+BASE_PATH = "/"
