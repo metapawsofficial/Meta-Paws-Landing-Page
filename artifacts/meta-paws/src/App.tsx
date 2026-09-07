@@ -4,6 +4,7 @@ import {
   ArrowDownRight,
   ArrowUpRight,
   Check,
+  ChevronDown,
   Gift,
   Heart,
   Instagram,
@@ -12,7 +13,9 @@ import {
   MessageCircle,
   PawPrint,
   Rocket,
+  Send,
   ShieldCheck,
+  Sparkles,
   Ticket,
   X,
 } from 'lucide-react';
@@ -34,7 +37,6 @@ const externalLinks = {
   discord: 'https://example.com/discord',
   form: 'https://forms.gle/your-google-form-link-here',
 };
-
 const navLinks = [
   { label: 'Home', href: '#top' },
   { label: 'Features', href: '#features' },
@@ -42,43 +44,20 @@ const navLinks = [
   { label: 'Roadmap', href: '#roadmap' },
   { label: 'Airdrop', href: '#airdrop' },
 ];
-
 const allocations = [
-  { label: 'Presale', value: 30, amount: '3,000,000,000', color: '#f36b2b' },
-  { label: 'Locked (vesting)', value: 40, amount: '4,000,000,000', color: '#ffda55' },
-  { label: 'Initial Liquidity', value: 15, amount: '1,500,000,000', color: '#8172dc' },
-  { label: 'Lottery & Charity', value: 5, amount: '500,000,000', color: '#d89c77' },
-  { label: 'Team & Development', value: 5, amount: '500,000,000', color: '#332950' },
-  { label: 'Marketing (immediate)', value: 5, amount: '500,000,000', color: '#63b8a4' },
+  { label: 'Presale', value: 30, amount: '3,000,000,000', color: '#5bdcff' },
+  { label: 'Locked (vesting)', value: 40, amount: '4,000,000,000', color: '#f3a5ea' },
+  { label: 'Initial Liquidity', value: 15, amount: '1,500,000,000', color: '#9b83ff' },
+  { label: 'Lottery & Charity', value: 5, amount: '500,000,000', color: '#f7d27c' },
+  { label: 'Team & Development', value: 5, amount: '500,000,000', color: '#5a477d' },
+  { label: 'Marketing (immediate)', value: 5, amount: '500,000,000', color: '#74d8bf' },
 ];
-
 const features = [
-  {
-    title: 'Daily Lottery',
-    emoji: '🎰',
-    copy: '2% of every transaction goes to the lottery pool. Every day, one lucky winner takes the prize.',
-    button: 'bg-[#f36b2b]',
-  },
-  {
-    title: 'Pet Charity',
-    emoji: '🐾💚',
-    copy: '1% of every transaction supports real animal shelters. Memes with a mission.',
-    button: 'bg-[#ffda55] text-[#332950]',
-  },
-  {
-    title: 'Locked & Transparent',
-    emoji: '🔒',
-    copy: '40% of supply locked for 90 days, then released monthly over 20 months. No team dump.',
-    button: 'bg-[#332950]',
-  },
-  {
-    title: 'Airdrop Rewards',
-    emoji: '🎁',
-    copy: 'Early supporters and presale buyers can earn free MPAW through our multi-stage airdrop program.',
-    button: 'bg-[#f36b2b]',
-  },
+  { title: 'Daily Lottery', copy: '2% of every transaction goes to the lottery pool. Every day, one lucky winner takes the prize.', icon: Ticket, accent: 'cyan' },
+  { title: 'Pet Charity', copy: '1% of every transaction supports real animal shelters. Memes with a mission.', icon: Heart, accent: 'pink' },
+  { title: 'Locked & Transparent', copy: '40% of supply locked for 90 days, then released monthly over 20 months. No team dump.', icon: LockKeyhole, accent: 'gold' },
+  { title: 'Airdrop Rewards', copy: 'Early supporters and presale buyers can earn free MPAW through our multi-stage airdrop program.', icon: Gift, accent: 'violet' },
 ];
-
 const roadmap = [
   { phase: '01', title: 'Paw Launch', copy: 'Presale & Community, early supporter airdrop.', icon: PawPrint },
   { phase: '02', title: 'Lottery Paws', copy: 'Daily lottery contract activation, transparent draws.', icon: Ticket },
@@ -89,25 +68,6 @@ const roadmap = [
 function scrollToId(id: string, close?: () => void) {
   document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   close?.();
-}
-
-function Mascot() {
-  return (
-    <div className="relative flex h-[360px] w-full max-w-[460px] items-center justify-center sm:h-[430px]" aria-label="Cute Persian cat mascot wearing sunglasses and holding a lottery ticket">
-      <div className="absolute h-[270px] w-[270px] rounded-full bg-[#5cc8ff] opacity-70 blur-[1px] sm:h-[350px] sm:w-[350px]" />
-      <div className="absolute h-[315px] w-[315px] rounded-full border border-white/60 bg-white/25 shadow-[0_0_70px_rgba(75,194,255,.6)] sm:h-[400px] sm:w-[400px]" />
-      <span className="star left-[8%] top-[17%]" />
-      <span className="star right-[10%] top-[11%]" />
-      <span className="star right-[3%] bottom-[26%]" />
-      <span className="star left-[7%] bottom-[19%]" />
-      <div className="relative z-10 w-[285px] rotate-[-4deg] overflow-hidden rounded-[38px] border-[3px] border-[#332950] bg-[#dce8f5] p-2 shadow-[9px_10px_0_#332950] sm:w-[355px]">
-        <img src={catHero} alt="Meta Paws cat mascot" className="h-[265px] w-full rounded-[30px] object-cover sm:h-[335px]" />
-        <div className="absolute bottom-5 left-5 rounded-full border-2 border-[#332950] bg-[#ffda55] px-3 py-1.5 font-mono-custom text-[9px] font-bold uppercase text-[#332950] shadow-[3px_3px_0_#332950]">MPAW / orbit 01</div>
-      </div>
-      <img src={catBadge} alt="Meta Paws cat coin badge" className="absolute bottom-[4%] left-[3%] z-20 h-[84px] w-[84px] rotate-[-14deg] rounded-full border-[3px] border-[#332950] object-cover shadow-[5px_5px_0_#332950] sm:h-[104px] sm:w-[104px]" />
-      <div className="absolute bottom-[5%] right-[2%] z-20 rotate-[10deg] rounded-full border-2 border-[#332950] bg-[#f36b2b] px-4 py-2 font-mono-custom text-[10px] font-bold text-[#fff8e9] shadow-[4px_4px_0_#332950]">PERSIAN POWER</div>
-    </div>
-  );
 }
 
 function timeLeft() {
@@ -128,13 +88,13 @@ function Countdown() {
     return () => window.clearInterval(interval);
   }, []);
   return (
-    <div className="mt-7">
-      <p className="font-mono-custom text-[10px] uppercase tracking-[.18em] text-[#927c7c]">Presale starts in:</p>
-      <div className="mt-3 flex flex-wrap gap-2">
+    <div className="mt-8" data-testid="countdown-presale">
+      <p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#b9a7d2]">Presale starts in</p>
+      <div className="mt-3 flex gap-2">
         {Object.entries(left).map(([unit, value]) => (
-          <div key={unit} className="min-w-[58px] rounded-xl border border-[#f0b878] bg-[#fff8e9] px-2 py-2 text-center shadow-[2px_3px_0_#f0b878] sm:min-w-[70px]">
-            <div className="font-display text-[24px] font-bold leading-none text-[#332950]">{String(value).padStart(2, '0')}</div>
-            <div className="mt-1 font-mono-custom text-[8px] uppercase tracking-[.14em] text-[#826e73]">{unit}</div>
+          <div key={unit} className="glass min-w-[59px] rounded-2xl px-2 py-3 text-center sm:min-w-[72px]" data-testid={`countdown-${unit}`}>
+            <div className="font-display text-[23px] font-bold leading-none text-[#f8efff]">{String(value).padStart(2, '0')}</div>
+            <div className="mt-1 font-mono-custom text-[8px] uppercase tracking-[.12em] text-[#b9a7d2]">{unit}</div>
           </div>
         ))}
       </div>
@@ -142,64 +102,81 @@ function Countdown() {
   );
 }
 
+function BrandMark() {
+  return <span className="grid h-9 w-9 place-items-center rounded-xl border border-[#7ddfff]/50 bg-[#5bdcff]/15 text-[#7ddfff] shadow-[0_0_18px_rgba(91,220,255,.25)]"><PawPrint size={18} /></span>;
+}
+
 function Nav() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="topbar fixed inset-x-0 top-0 z-50 border-b border-[#eadcc9]">
-      <div className="mx-auto flex h-[73px] max-w-[1240px] items-center justify-between px-5 lg:px-8">
+    <header className="topbar fixed inset-x-3 top-3 z-50 rounded-2xl border px-3 sm:inset-x-5 sm:top-4 lg:inset-x-8" data-testid="navigation">
+      <div className="mx-auto flex h-[58px] max-w-[1180px] items-center justify-between">
         <button onClick={() => scrollToId('#top')} className="group flex items-center gap-2.5" data-testid="button-brand-home">
-          <span className="grid h-10 w-10 rotate-[-8deg] place-items-center rounded-[13px] border-2 border-[#332950] bg-[#f36b2b] text-lg shadow-[3px_3px_0_#332950] transition-transform group-hover:rotate-[5deg]">🐾</span>
-          <span className="font-display text-[21px] font-bold tracking-[-.06em] text-[#332950]">META <span className="text-[#f36b2b]">PAWS</span></span>
+          <BrandMark />
+          <span className="font-display text-[16px] font-bold tracking-[-.04em] text-[#f8efff]">META <span className="text-[#6ddfff]">PAWS</span></span>
         </button>
         <nav className="hidden items-center gap-6 md:flex">
-          {navLinks.map((link) => <button key={link.href} onClick={() => scrollToId(link.href)} className="text-[12px] font-semibold text-[#66586b] transition-colors hover:text-[#f36b2b]" data-testid={`link-nav-${link.label.toLowerCase()}`}>{link.label}</button>)}
+          {navLinks.map((link) => <button key={link.href} onClick={() => scrollToId(link.href)} className="font-mono-custom text-[10px] uppercase tracking-[.14em] text-[#c0addb] transition-colors hover:text-[#7de5ff]" data-testid={`link-nav-${link.label.toLowerCase()}`}>{link.label}</button>)}
         </nav>
-        <div className="hidden items-center gap-3 md:flex">
-          <a href={externalLinks.telegram} target="_blank" rel="noreferrer" className="rounded-full p-2 text-[#66586b] transition hover:bg-[#f7e6ca] hover:text-[#332950]" aria-label="Join Meta Paws on Telegram"><MessageCircle size={18} /></a>
-          <a href={externalLinks.twitter} target="_blank" rel="noreferrer" className="rounded-full p-2 text-[#66586b] transition hover:bg-[#f7e6ca] hover:text-[#332950]" aria-label="Follow Meta Paws on Twitter"><span className="text-sm font-bold">𝕏</span></a>
-          <button onClick={() => scrollToId('#airdrop')} className="button-pop rounded-full border-2 border-[#332950] bg-[#332950] px-5 py-2.5 font-display text-[12px] font-bold uppercase tracking-[.08em] text-[#fff8e9]">Get the airdrop <ArrowUpRight size={15} className="ml-1 inline" /></button>
+        <div className="hidden items-center gap-2 sm:flex">
+          <a href={externalLinks.telegram} target="_blank" rel="noreferrer" className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-[#d9c8ef] transition hover:border-[#6ddfff]/60 hover:text-[#6ddfff]" aria-label="Join Meta Paws on Telegram" data-testid="link-telegram-nav"><MessageCircle size={16} /></a>
+          <a href={externalLinks.twitter} target="_blank" rel="noreferrer" className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-[#d9c8ef] transition hover:border-[#f3a5ea]/60 hover:text-[#f3a5ea]" aria-label="Follow Meta Paws on Twitter" data-testid="link-twitter-nav"><span className="font-display text-xs font-bold">X</span></a>
+          <button onClick={() => scrollToId('#airdrop')} className="button-glow rounded-full bg-[#d98de0] px-4 py-2 font-display text-[10px] font-bold uppercase tracking-[.1em] text-[#241337]" data-testid="button-airdrop-nav">Get the airdrop <ArrowUpRight size={13} className="ml-1 inline" /></button>
         </div>
-        <button className="rounded-lg p-2 text-[#332950] md:hidden" onClick={() => setOpen(!open)} aria-label="Toggle menu">{open ? <X /> : <Menu />}</button>
+        <button className="rounded-lg p-2 text-[#e8d9f7] sm:hidden" onClick={() => setOpen(!open)} aria-label="Toggle menu" data-testid="button-menu">{open ? <X size={21} /> : <Menu size={21} />}</button>
       </div>
-      {open && <div className="border-t border-[#eadcc9] bg-[#fff8e9] px-5 py-5 md:hidden"><nav className="flex flex-col gap-4">{navLinks.map((link) => <button key={link.href} className="text-left font-display text-lg font-semibold text-[#332950]" onClick={() => scrollToId(link.href, () => setOpen(false))}>{link.label}</button>)}</nav><button onClick={() => scrollToId('#airdrop', () => setOpen(false))} className="mt-5 w-full rounded-full border-2 border-[#332950] bg-[#f36b2b] py-3 font-display font-bold text-[#fff8e9]">Join the airdrop</button></div>}
+      {open && <div className="border-t border-white/10 px-2 py-4 sm:hidden"><nav className="flex flex-col gap-3">{navLinks.map((link) => <button key={link.href} className="rounded-xl px-3 py-2 text-left font-display text-base font-semibold text-[#eee2fa]" onClick={() => scrollToId(link.href, () => setOpen(false))} data-testid={`link-mobile-${link.label.toLowerCase()}`}>{link.label}</button>)}</nav><button onClick={() => scrollToId('#airdrop', () => setOpen(false))} className="mt-3 w-full rounded-full bg-[#d98de0] py-3 font-display text-xs font-bold uppercase tracking-[.1em] text-[#241337]" data-testid="button-mobile-airdrop">Join the airdrop</button></div>}
     </header>
   );
 }
 
 function Hero() {
   return (
-    <section id="top" className="relative blue-grid overflow-hidden border-b border-[#b6d9ee] bg-[#f4fbff] pt-[126px]">
-      <div className="mx-auto grid max-w-[1240px] items-center gap-10 px-5 pb-20 sm:px-8 lg:grid-cols-[1fr_1fr] lg:gap-12 lg:px-8 lg:pb-24">
-        <div className="relative z-10">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7cc9f2] bg-[#e1f5ff] px-3 py-2 font-mono-custom text-[10px] font-medium uppercase tracking-[.14em] text-[#176497]"><span className="h-2 w-2 animate-pulse rounded-full bg-[#168bd0]" /> the internet’s luckiest cat</div>
-          <h1 className="font-display text-[64px] font-bold leading-[.9] tracking-[-.08em] text-[#332950] sm:text-[92px]">Meta <span className="text-[#f36b2b]">Paws</span></h1>
-          <p className="mt-4 font-display text-[28px] font-semibold tracking-[-.05em] text-[#332950] sm:text-[38px]">Play. Win. Rescue.</p>
-          <p className="mt-6 max-w-[510px] text-[16px] leading-[1.65] text-[#66586b] sm:text-[18px]">A meme coin with a real pawpose. Daily lottery, pet charity, and transparent tokenomics.</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href={externalLinks.telegram} target="_blank" rel="noreferrer" className="button-pop rounded-full border-2 border-[#332950] bg-[#f36b2b] px-6 py-3.5 font-display text-[13px] font-bold uppercase tracking-[.08em] text-[#fff8e9] shadow-[4px_5px_0_#332950]">Join Telegram <ArrowUpRight size={16} className="ml-1 inline" /></a>
-            <a href={externalLinks.twitter} target="_blank" rel="noreferrer" className="outline-pop rounded-full border-2 border-[#332950] bg-transparent px-6 py-3.5 font-display text-[13px] font-bold uppercase tracking-[.08em] text-[#332950]">Follow Twitter <ArrowUpRight size={16} className="ml-1 inline" /></a>
+    <section id="top" className="hero-scene relative overflow-hidden border-b border-[#9d78ce]/20 pt-[112px]" data-testid="section-hero">
+      <div className="relative mx-auto grid min-h-[720px] max-w-[1240px] items-center gap-10 px-5 pb-16 sm:px-8 lg:grid-cols-[.92fr_1.08fr] lg:px-10 lg:pb-20">
+        <div className="reveal relative z-10">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#8edfff]/30 bg-[#75ddff]/10 px-3 py-2 font-mono-custom text-[9px] uppercase tracking-[.17em] text-[#8fe8ff]"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#7de5ff]" /> the internet's luckiest cat</div>
+          <h1 className="font-display text-[65px] font-bold leading-[.86] tracking-[-.09em] text-[#fbf3ff] sm:text-[93px]">Meta<br /><span className="bg-gradient-to-r from-[#73e1ff] via-[#bba2ff] to-[#f2a4df] bg-clip-text text-transparent">Paws</span></h1>
+          <p className="mt-6 max-w-[480px] font-display text-[22px] font-medium leading-tight text-[#eadcf8] sm:text-[28px]">Play. Win. Rescue.</p>
+          <p className="mt-4 max-w-[470px] text-[14px] leading-[1.8] text-[#b9a7d2] sm:text-[16px]">A meme coin with a real pawpose. Daily lottery, pet charity, and transparent tokenomics.</p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <a href={externalLinks.telegram} target="_blank" rel="noreferrer" className="button-glow inline-flex items-center rounded-full bg-[#75ddff] px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.1em] text-[#21113b]" data-testid="link-telegram-hero">Join Telegram <ArrowUpRight size={15} className="ml-1" /></a>
+            <a href={externalLinks.twitter} target="_blank" rel="noreferrer" className="inline-flex items-center rounded-full border border-[#efb2e6]/55 bg-white/5 px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.1em] text-[#f7e8ff] transition hover:bg-white/10" data-testid="link-twitter-hero">Follow Twitter <ArrowUpRight size={15} className="ml-1" /></a>
           </div>
           <Countdown />
         </div>
-        <div className="hero-visual reveal-2 relative flex items-center justify-center lg:justify-end"><div className="absolute right-[4%] top-[2%] font-mono-custom text-[10px] uppercase tracking-[.14em] text-[#927c7c]">MPAW / orbit 01</div><Mascot /></div>
+        <div className="relative flex min-h-[425px] items-center justify-center lg:min-h-[590px]" data-testid="hero-art">
+          <div className="orbit absolute h-[370px] w-[370px] border-dashed border-[#b98bff]/25 sm:h-[500px] sm:w-[500px]" />
+          <div className="orbit absolute h-[260px] w-[260px] border-[#71ddff]/25 sm:h-[370px] sm:w-[370px]" />
+          <div className="absolute h-[230px] w-[230px] rounded-full bg-[#7754d4]/25 blur-3xl sm:h-[340px] sm:w-[340px]" />
+          <div className="image-card float relative z-10 w-[245px] rotate-[-5deg] bg-[#28184d] p-2 sm:w-[340px]">
+            <img src={catHero} alt="Meta Paws cat mascot wearing sunglasses" className="h-[295px] w-full rounded-[1.6rem] object-cover sm:h-[410px]" data-testid="img-hero-mascot" />
+            <div className="absolute bottom-5 left-5 rounded-full border border-white/30 bg-[#1b1239]/75 px-3 py-1.5 font-mono-custom text-[8px] uppercase tracking-[.12em] text-[#e9ddf7] backdrop-blur-md">MPAW / orbit 01</div>
+          </div>
+          <img src={catBadge} alt="Meta Paws cat coin badge" className="float-slow absolute bottom-[6%] left-[4%] z-20 h-[88px] w-[88px] rotate-[-12deg] rounded-full border-2 border-[#f2c5ef]/70 object-cover shadow-[0_10px_32px_rgba(219,132,221,.35)] sm:h-[120px] sm:w-[120px]" data-testid="img-cat-badge" />
+          <div className="glass absolute right-[2%] top-[8%] z-20 rounded-2xl px-3 py-2 font-mono-custom text-[9px] uppercase tracking-[.12em] text-[#91e9ff] sm:right-[8%]">MPAW / 001 <Sparkles size={12} className="ml-1 inline" /></div>
+          <div className="absolute bottom-[8%] right-[3%] z-20 rounded-2xl border border-[#f0a9e4]/40 bg-[#ed9fdc]/15 px-4 py-3 font-display text-[11px] font-bold uppercase tracking-[.1em] text-[#f7d8f3] backdrop-blur-md sm:right-[9%]">PERSIAN POWER</div>
+        </div>
       </div>
-      <div className="border-t border-[#153c6d] bg-[#103766] py-3.5 text-[#e6f7ff]"><div className="ticker marquee flex w-max items-center gap-10 font-mono-custom text-[10px] uppercase tracking-[.17em]"><span>✦ community first</span><span>✦ daily lottery</span><span>✦ pet charity</span><span>✦ locked liquidity</span><span>✦ community first</span><span>✦ daily lottery</span><span>✦ pet charity</span><span>✦ locked liquidity</span></div></div>
+      <div className="relative border-y border-white/10 bg-[#0c0820]/45 py-3"><div className="ticker marquee flex w-max items-center gap-10 font-mono-custom text-[9px] uppercase tracking-[.18em] text-[#c2b0dc]"><span>community first</span><span className="text-[#76defb]">daily lottery</span><span className="text-[#efaae0]">pet charity</span><span className="text-[#f7d27c]">locked liquidity</span><span>community first</span><span className="text-[#76defb]">daily lottery</span><span className="text-[#efaae0]">pet charity</span><span className="text-[#f7d27c]">locked liquidity</span></div></div>
     </section>
   );
 }
 
 function Features() {
   return (
-    <section id="features" className="relative overflow-hidden bg-[#15558e] px-5 py-20 text-[#f6fcff] sm:px-8 lg:py-28">
-      <div className="mx-auto max-w-[1080px]">
-        <div className="mb-14 max-w-[560px]"><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#ffdca9]">01 / why mpaw</p><h2 className="mt-4 font-display text-[48px] font-bold leading-[.95] tracking-[-.07em] sm:text-[67px]">The good stuff<br /><span className="text-[#ffda55]">in every paw.</span></h2></div>
-        <div className="space-y-5">
-          {features.map((feature, index) => (
-            <article key={feature.title} className={`grid items-center gap-6 rounded-[24px] border-2 border-[#69c8f3] bg-[#1e6ba8] p-5 shadow-[6px_6px_0_#0a315b] sm:p-7 md:grid-cols-2 ${index % 2 ? 'md:[&>*:first-child]:order-2' : ''}`}>
-              <div className="flex min-h-[170px] items-center justify-center rounded-2xl border border-[#69c8f3] bg-[#124b80] text-[75px] sm:text-[95px]" aria-hidden="true">{feature.emoji}</div>
-              <div className={index % 2 ? 'md:pr-8' : 'md:pl-8'}><div className="font-mono-custom text-[10px] uppercase tracking-[.16em] text-[#b7e9ff]">0{index + 1} / feature</div><h3 className="mt-3 font-display text-[30px] font-bold tracking-[-.05em]">{feature.title}</h3><p className="mt-3 max-w-[430px] text-[15px] leading-[1.6] text-[#dff5ff]">{feature.copy}</p><a href="#contact" className={`mt-5 inline-flex items-center rounded-full border-2 border-[#332950] px-4 py-2.5 font-display text-[11px] font-bold uppercase tracking-[.08em] text-[#fff8e9] shadow-[3px_3px_0_#332950] transition hover:-translate-y-0.5 ${feature.button}`}>Learn More <ArrowUpRight size={14} className="ml-1" /></a></div>
-            </article>
-          ))}
+    <section id="features" className="section-night relative overflow-hidden px-5 py-24 sm:px-8 lg:py-32" data-testid="section-features">
+      <div className="absolute -right-36 top-16 h-[430px] w-[430px] rounded-full bg-[#7642aa]/15 blur-3xl" />
+      <div className="relative mx-auto max-w-[1120px]">
+        <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#73ddfa]">01 / the night garden</p><h2 className="mt-4 font-display text-[48px] font-bold leading-[.9] tracking-[-.08em] text-[#fbf3ff] sm:text-[70px]">Good things<br /><span className="text-[#e9a4dd]">grow here.</span></h2></div><p className="max-w-[310px] text-[14px] leading-[1.75] text-[#b5a3cd]">A playful ecosystem built around chance, care, and a community that knows how to have fun.</p></div>
+        <div className="grid gap-4 md:grid-cols-2">
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
+            return <article key={feature.title} className="glass group relative overflow-hidden rounded-[2rem] p-5 transition-transform duration-500 hover:-translate-y-1 sm:p-7" data-testid={`card-feature-${index + 1}`}>
+              <div className={`mb-12 flex h-[170px] items-center justify-center rounded-[1.5rem] border border-white/10 ${feature.accent === 'cyan' ? 'bg-[#64dcff]/10' : feature.accent === 'pink' ? 'bg-[#eb9cdd]/10' : feature.accent === 'gold' ? 'bg-[#f3d47d]/10' : 'bg-[#9a80ff]/10'}`}><Icon size={60} strokeWidth={1.2} className={feature.accent === 'cyan' ? 'text-[#70e2ff]' : feature.accent === 'pink' ? 'text-[#f1a4de]' : feature.accent === 'gold' ? 'text-[#f6d47f]' : 'text-[#ac93ff]'} /></div>
+              <div className="font-mono-custom text-[9px] uppercase tracking-[.17em] text-[#9f8ab9]">0{index + 1} / feature</div><h3 className="mt-3 font-display text-[27px] font-bold tracking-[-.05em] text-[#f8edff]">{feature.title}</h3><p className="mt-3 max-w-[430px] text-[14px] leading-[1.7] text-[#b9a8cf]">{feature.copy}</p><button onClick={() => scrollToId('#contact')} className="mt-5 inline-flex items-center rounded-full border border-white/20 bg-white/5 px-4 py-2.5 font-display text-[10px] font-bold uppercase tracking-[.1em] text-[#eadef7] transition hover:border-[#76defb]/60 hover:text-[#76defb]" data-testid={`button-feature-${index + 1}`}>Learn more <ArrowUpRight size={13} className="ml-1" /></button>
+            </article>;
+          })}
         </div>
       </div>
     </section>
@@ -208,10 +185,11 @@ function Features() {
 
 function Tokenomics() {
   return (
-    <section id="tokenomics" className="blue-grid bg-[#eaf7ff] px-5 py-20 sm:px-8 lg:py-28">
-      <div className="mx-auto max-w-[1240px]"><div className="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#9c4f2b]">02 / receipts on the table</p><h2 className="mt-4 font-display text-[48px] font-bold leading-[.95] tracking-[-.07em] text-[#332950] sm:text-[66px]">Transparent<br /><span className="text-[#f36b2b]">by design.</span></h2></div><p className="max-w-[330px] text-[15px] leading-[1.6] text-[#75666e]">10,000,000,000 MPAW total supply. Every category has a job, and every number is right here.</p></div>
-        <div className="mt-12 grid gap-8 lg:grid-cols-[.9fr_1.1fr]"><div className="rounded-[25px] border-2 border-[#332950] bg-[#faffff] p-6 shadow-[7px_7px_0_#332950] sm:p-8"><div className="flex items-center justify-between"><span className="font-mono-custom text-[10px] uppercase tracking-[.17em] text-[#927c7c]">total supply</span><span className="rounded-full bg-[#ffda55] px-3 py-1 font-mono-custom text-[10px] font-bold text-[#332950]">fixed</span></div><p className="mt-4 font-display text-[39px] font-bold tracking-[-.08em] text-[#332950] sm:text-[54px]">10,000,000,000</p><p className="font-mono-custom text-[11px] uppercase tracking-[.12em] text-[#927c7c]">MPAW tokens</p><div className="mt-10 flex h-5 overflow-hidden rounded-full border-2 border-[#332950]">{allocations.map((item) => <span key={item.label} style={{ width: `${item.value}%`, backgroundColor: item.color }} />)}</div><div className="relative mt-7 overflow-hidden rounded-2xl border-2 border-[#183e6b] bg-[#183e6b]"><img src={coinMarket} alt="Meta Paws coin on a global digital asset trading desk" className="h-[150px] w-full object-cover opacity-90" /><div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#102e54] to-transparent px-4 pb-3 pt-8 font-mono-custom text-[9px] uppercase tracking-[.12em] text-[#eaf7ff]">global digital asset / MPAW</div></div><p className="mt-4 text-[13px] leading-relaxed text-[#75666e]">No hidden allocations. No team dump. Just a clear plan for the community.</p></div>
-          <div className="space-y-3">{allocations.map((item) => <div key={item.label} className="group flex items-center gap-4 rounded-2xl border border-[#eadcc9] bg-[#fff8e9] p-4 transition hover:translate-x-1 hover:border-[#f36b2b] sm:p-5"><div className="h-11 w-2 shrink-0 rounded-full" style={{ backgroundColor: item.color }} /><div className="min-w-0 flex-1"><div className="flex items-baseline justify-between gap-3"><h3 className="font-display text-[16px] font-bold text-[#332950]">{item.label}</h3><strong className="font-display text-[21px] text-[#332950]">{item.value}%</strong></div><p className="mt-1 font-mono-custom text-[10px] uppercase tracking-[.12em] text-[#927c7c]">{item.amount} tokens</p></div></div>)}</div>
+    <section id="tokenomics" className="section-dusk line-art px-5 py-24 sm:px-8 lg:py-32" data-testid="section-tokenomics">
+      <div className="mx-auto max-w-[1240px]"><div className="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#f0b2e3]">02 / receipts on the table</p><h2 className="mt-4 font-display text-[48px] font-bold leading-[.9] tracking-[-.08em] text-[#f8efff] sm:text-[69px]">Transparent<br /><span className="text-[#74defb]">by design.</span></h2></div><p className="max-w-[340px] text-[14px] leading-[1.75] text-[#b9a9cf]">10,000,000,000 MPAW total supply. Every category has a job, and every number is right here.</p></div>
+        <div className="mt-12 grid gap-5 lg:grid-cols-[.92fr_1.08fr]">
+          <div className="glass rounded-[2rem] p-5 sm:p-7"><div className="flex items-center justify-between"><span className="font-mono-custom text-[9px] uppercase tracking-[.17em] text-[#a999be]">total supply</span><span className="rounded-full bg-[#f5d77e]/15 px-3 py-1 font-mono-custom text-[9px] font-bold text-[#f7d27c]">fixed</span></div><p className="mt-4 font-display text-[38px] font-bold tracking-[-.08em] text-[#f8efff] sm:text-[53px]" data-testid="text-total-supply">10,000,000,000</p><p className="font-mono-custom text-[10px] uppercase tracking-[.12em] text-[#a999be]">MPAW tokens</p><div className="mt-9 flex h-4 overflow-hidden rounded-full border border-white/20" data-testid="allocation-bar">{allocations.map((item) => <span key={item.label} style={{ width: `${item.value}%`, backgroundColor: item.color }} />)}</div><div className="image-card relative mt-7"><img src={coinMarket} alt="Meta Paws coin on a global digital asset trading desk" className="h-[175px] w-full object-cover opacity-90" data-testid="img-coin-market" /><div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#11102a] to-transparent px-4 pb-3 pt-12 font-mono-custom text-[9px] uppercase tracking-[.12em] text-[#e9ddf6]">global digital asset / MPAW</div></div><p className="mt-4 text-[13px] leading-relaxed text-[#b5a4ca]">No hidden allocations. No team dump. Just a clear plan for the community.</p></div>
+          <div className="space-y-2.5">{allocations.map((item, index) => <div key={item.label} className="glass flex items-center gap-4 rounded-2xl p-4 transition hover:bg-white/10 sm:p-5" data-testid={`row-allocation-${index + 1}`}><div className="h-10 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: item.color }} /><div className="min-w-0 flex-1"><div className="flex items-baseline justify-between gap-3"><h3 className="font-display text-[15px] font-bold text-[#f5eaff]">{item.label}</h3><strong className="font-display text-[20px] text-[#f5eaff]">{item.value}%</strong></div><p className="mt-1 font-mono-custom text-[9px] uppercase tracking-[.12em] text-[#9f8db5]">{item.amount} tokens</p></div></div>)}</div>
         </div>
       </div>
     </section>
@@ -219,11 +197,11 @@ function Tokenomics() {
 }
 
 function Roadmap() {
-  return <section id="roadmap" className="bg-[#fff8e9] px-5 py-20 sm:px-8 lg:py-28"><div className="mx-auto max-w-[1240px]"><div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#9c4f2b]">03 / where we’re going</p><h2 className="mt-4 font-display text-[48px] font-bold leading-[.95] tracking-[-.07em] text-[#332950] sm:text-[66px]">A roadmap with<br /><span className="text-[#f36b2b]">real pawprints.</span></h2></div><p className="max-w-[300px] text-[15px] leading-[1.6] text-[#75666e]">One playful step at a time, with the community along for the ride.</p></div><div className="relative mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">{roadmap.map(({ phase, title, copy, icon: Icon }, index) => <div key={phase} className="card-lift relative rounded-2xl border-2 border-[#eadcc9] bg-[#f7e6ca] p-5"><div className="mb-12 flex items-start justify-between"><div className={`grid h-11 w-11 place-items-center rounded-xl border-2 border-[#332950] ${index === 0 ? 'bg-[#f36b2b] text-[#fff8e9]' : 'bg-[#ffda55] text-[#332950]'}`}><Icon size={19} /></div><span className="font-mono-custom text-[10px] text-[#927c7c]">PHASE {phase}</span></div><h3 className="font-display text-[22px] font-bold leading-tight text-[#332950]">{title}</h3><p className="mt-3 min-h-[67px] text-[13px] leading-[1.55] text-[#75666e]">{copy}</p>{index < roadmap.length - 1 && <div className="step-line absolute -right-[18px] top-10 hidden h-1 w-4 lg:block" />}</div>)}</div></div></section>;
+  return <section id="roadmap" className="section-night relative px-5 py-24 sm:px-8 lg:py-32" data-testid="section-roadmap"><div className="mx-auto max-w-[1240px]"><div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#74defb]">03 / where we're going</p><h2 className="mt-4 font-display text-[48px] font-bold leading-[.9] tracking-[-.08em] text-[#f9efff] sm:text-[68px]">A roadmap with<br /><span className="text-[#efa6df]">real pawprints.</span></h2></div><p className="max-w-[300px] text-[14px] leading-[1.75] text-[#b9a7d2]">One playful step at a time, with the community along for the ride.</p></div><div className="relative mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">{roadmap.map(({ phase, title, copy, icon: Icon }, index) => <div key={phase} className="glass rounded-[1.7rem] p-5" data-testid={`card-roadmap-${phase}`}><div className="mb-12 flex items-start justify-between"><div className={`grid h-11 w-11 place-items-center rounded-xl border ${index === 0 ? 'border-[#74defb]/60 bg-[#74defb]/15 text-[#74defb]' : 'border-[#e9a4dd]/50 bg-[#e9a4dd]/10 text-[#e9a4dd]'}`}><Icon size={19} /></div><span className="font-mono-custom text-[9px] text-[#9c8baa]">PHASE {phase}</span></div><h3 className="font-display text-[21px] font-bold leading-tight text-[#f9efff]">{title}</h3><p className="mt-3 min-h-[67px] text-[13px] leading-[1.6] text-[#b3a1c8]">{copy}</p><div className="mt-5 flex items-center gap-2 font-mono-custom text-[9px] uppercase tracking-[.12em] text-[#75ddff]">{index === 0 ? <><Check size={13} /> in motion</> : <>next horizon <ArrowDownRight size={13} /></>}</div></div>)}</div></div></section>;
 }
 
 function Airdrop() {
-  return <section id="airdrop" className="relative overflow-hidden bg-[#0b2c55] px-5 py-20 text-[#f4fbff] sm:px-8 lg:py-28"><div className="absolute -right-24 -top-24 h-[360px] w-[360px] rounded-full border-[45px] border-[#164b7d]" /><div className="absolute -bottom-36 -left-24 h-[420px] w-[420px] rounded-full border-[60px] border-[#164b7d]" /><div className="relative mx-auto max-w-[1240px]"><div className="grid gap-12 lg:grid-cols-[1fr_.9fr] lg:items-center"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#a9ddf6]">04 / early supporter rewards</p><h2 className="mt-4 max-w-[650px] font-display text-[49px] font-bold leading-[.94] tracking-[-.07em] sm:text-[70px]">Airdrop —<br /><span className="text-[#5cc8ff]">Early Supporters</span></h2><p className="mt-6 max-w-[500px] text-[16px] leading-[1.65] text-[#d9f2ff]">Only 5,000 spots available. Complete tasks to earn free MPAW.</p><p className="mt-5 max-w-[500px] text-[15px] leading-[1.65] text-[#d9f2ff]">Top 10 referrers get <strong className="text-[#ffda55]">3,000,000 MPAW each!</strong></p></div><div className="rounded-[26px] border-2 border-[#5cc8ff] bg-[#faffff] p-5 text-[#332950] shadow-[8px_8px_0_#ffda55] sm:p-7"><div className="flex items-center justify-between"><span className="font-mono-custom text-[10px] uppercase tracking-[.15em] text-[#42718d]">reward tiers</span><Gift size={22} className="text-[#168bd0]" /></div><div className="mt-5 space-y-2">{[['First 1,000', '50,000 MPAW'], ['Next 1,000', '25,000 MPAW'], ['Next 1,000', '12,500 MPAW'], ['Next 2,000', '6,250 MPAW']].map(([tier, reward], i) => <div key={`${tier}-${i}`} className={`flex items-center gap-3 rounded-xl border px-3 py-3 ${i === 0 ? 'border-[#7cc9f2] bg-[#e1f5ff]' : 'border-[#b6d9ee] bg-[#edf8ff]'}`}><div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#103766] font-mono-custom text-[10px] font-bold text-[#ffda55]">0{i + 1}</div><p className="flex-1 font-display text-[14px] font-bold">{tier}</p><strong className="font-mono-custom text-[10px] text-[#168bd0]">{reward}</strong></div>)}</div><a href={externalLinks.form} target="_blank" rel="noreferrer" className="button-pop mt-6 flex w-full items-center justify-center rounded-full border-2 border-[#332950] bg-[#168bd0] px-5 py-3 font-display text-[12px] font-bold uppercase tracking-[.08em] text-[#faffff] shadow-[3px_3px_0_#332950]">I want to be among the first <ArrowUpRight size={15} className="ml-1" /></a></div></div></div></section>;
+  return <section id="airdrop" className="section-rose relative overflow-hidden px-5 py-24 sm:px-8 lg:py-32" data-testid="section-airdrop"><div className="absolute -right-36 -top-36 h-[500px] w-[500px] rounded-full border-[1px] border-[#ef9edc]/20 shadow-[0_0_100px_rgba(239,158,220,.12)]" /><div className="absolute -bottom-48 -left-48 h-[520px] w-[520px] rounded-full border-[1px] border-[#71defd]/20" /><div className="relative mx-auto max-w-[1240px]"><div className="grid gap-12 lg:grid-cols-[1fr_.8fr] lg:items-center"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#74defb]">04 / early supporter rewards</p><h2 className="mt-4 max-w-[650px] font-display text-[49px] font-bold leading-[.9] tracking-[-.08em] text-[#f9efff] sm:text-[72px]">Airdrop —<br /><span className="text-[#efa5df]">Early Supporters</span></h2><p className="mt-6 max-w-[500px] text-[15px] leading-[1.75] text-[#c2b1d3]">Only 5,000 spots available. Complete tasks to earn free MPAW.</p><p className="mt-5 max-w-[500px] text-[15px] leading-[1.75] text-[#c2b1d3]">Top 10 referrers get <strong className="text-[#f7d27c]">3,000,000 MPAW each!</strong></p></div><div className="glass glow-pink rounded-[2rem] p-5 sm:p-7"><div className="flex items-center justify-between"><span className="font-mono-custom text-[9px] uppercase tracking-[.15em] text-[#b9a4c6]">reward tiers</span><Gift size={22} className="text-[#f2a4de]" /></div><div className="mt-5 space-y-2">{[['First 1,000', '50,000 MPAW'], ['Next 1,000', '25,000 MPAW'], ['Next 1,000', '12,500 MPAW'], ['Next 2,000', '6,250 MPAW']].map(([tier, reward], i) => <div key={`${tier}-${i}`} className={`flex items-center gap-3 rounded-xl border p-3 ${i === 0 ? 'border-[#75ddff]/40 bg-[#75ddff]/10' : 'border-white/10 bg-white/5'}`} data-testid={`row-airdrop-tier-${i + 1}`}><div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#24163e] font-mono-custom text-[10px] font-bold text-[#74defb]">0{i + 1}</div><p className="flex-1 font-display text-[13px] font-bold text-[#f7ecff]">{tier}</p><strong className="font-mono-custom text-[9px] text-[#74defb]">{reward}</strong></div>)}</div><a href={externalLinks.form} target="_blank" rel="noreferrer" className="button-glow mt-6 flex w-full items-center justify-center rounded-full bg-[#75ddff] px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.08em] text-[#201137]" data-testid="link-airdrop-form">I want to be among the first <ArrowUpRight size={15} className="ml-1" /></a></div></div></div></section>;
 }
 
 function Contact() {
@@ -231,11 +209,11 @@ function Contact() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const submit = (event: FormEvent) => { event.preventDefault(); if (name.trim() && email.trim()) setSent(true); };
-  return <section id="contact" className="rounded-t-[4rem] bg-white px-5 py-20 sm:px-8 lg:py-24"><div className="mx-auto grid max-w-[1240px] gap-10 lg:grid-cols-[.75fr_1.25fr] lg:items-center"><div className="rounded-[28px] border-2 border-[#332950] bg-[#ffda55] p-7 shadow-[6px_6px_0_#332950] sm:p-9"><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#775f32]">05 / stay in the loop</p><h2 className="mt-4 font-display text-[47px] font-bold leading-[.94] tracking-[-.07em] text-[#332950] sm:text-[63px]">Play.<br /><span className="text-[#f36b2b]">Win.</span><br />Rescue.</h2><p className="mt-6 max-w-[360px] text-[15px] leading-[1.6] text-[#66586b]">Meta Paws can help you play, win, and rescue with our unique meme coin ecosystem.</p></div><div className="rounded-[30px] border-2 border-[#332950] bg-[#332950] p-5 shadow-[8px_8px_0_#f36b2b] sm:p-8">{sent ? <div className="flex min-h-[250px] flex-col items-center justify-center text-center text-[#fff8e9]"><div className="grid h-16 w-16 place-items-center rounded-full bg-[#dff3e5] text-[#28754b]"><Check size={29} /></div><h3 className="mt-5 font-display text-2xl font-bold">You’re on the list.</h3><p className="mt-2 text-sm text-[#cfc2d4]">The MPAW team will be in touch soon.</p></div> : <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2"><label className="font-mono-custom text-[10px] uppercase tracking-[.1em] text-[#cfc2d4]">Name<input value={name} onChange={(event) => setName(event.target.value)} required className="mt-2 w-full rounded-xl border border-[#615578] bg-[#44365e] px-3 py-3 font-sans text-sm text-[#fff8e9] outline-none placeholder:text-[#aa9eb3] focus:border-[#ffda55]" placeholder="A fellow pawrson" /></label><label className="font-mono-custom text-[10px] uppercase tracking-[.1em] text-[#cfc2d4]">Email<input value={email} onChange={(event) => setEmail(event.target.value)} required type="email" className="mt-2 w-full rounded-xl border border-[#615578] bg-[#44365e] px-3 py-3 font-sans text-sm text-[#fff8e9] outline-none placeholder:text-[#aa9eb3] focus:border-[#ffda55]" placeholder="hello@you.com" /></label><div className="flex items-center justify-between sm:col-span-2"><span className="text-[11px] text-[#a7959c]">Newsletter + early access.</span><button className="button-pop rounded-full border-2 border-[#ffda55] bg-[#f36b2b] px-6 py-3 font-display text-[12px] font-bold uppercase tracking-[.08em] text-[#fff8e9] shadow-[3px_3px_0_#ffda55]">Submit <ArrowUpRight size={15} className="ml-1 inline" /></button></div></form>}</div></div></section>;
+  return <section id="contact" className="relative overflow-hidden rounded-t-[3rem] bg-[#0c0820] px-5 py-20 sm:px-8 lg:py-28" data-testid="section-contact"><div className="mx-auto grid max-w-[1240px] gap-8 lg:grid-cols-[.76fr_1.24fr] lg:items-center"><div className="relative overflow-hidden rounded-[2rem] border border-[#efa5df]/35 bg-gradient-to-br from-[#412467] to-[#1b123b] p-7 sm:p-10"><div className="absolute -right-14 -top-14 h-40 w-40 rounded-full bg-[#ef9fdd]/15 blur-2xl" /><p className="relative font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#74defb]">05 / stay in the loop</p><h2 className="relative mt-4 font-display text-[48px] font-bold leading-[.86] tracking-[-.08em] text-[#f9efff] sm:text-[65px]">Play.<br /><span className="text-[#74defb]">Win.</span><br />Rescue.</h2><p className="relative mt-6 max-w-[360px] text-[14px] leading-[1.7] text-[#bfaed0]">Meta Paws can help you play, win, and rescue with our unique meme coin ecosystem.</p><div className="relative mt-8 flex items-center gap-2 font-mono-custom text-[9px] uppercase tracking-[.14em] text-[#efa5df]"><ShieldCheck size={15} /> community signal active</div></div><div className="glass rounded-[2rem] p-5 sm:p-8">{sent ? <div className="flex min-h-[260px] flex-col items-center justify-center text-center" data-testid="status-contact-success"><div className="grid h-16 w-16 place-items-center rounded-full bg-[#75ddff]/15 text-[#75ddff]"><Check size={29} /></div><h3 className="mt-5 font-display text-2xl font-bold text-[#f9efff]">You're on the list.</h3><p className="mt-2 text-sm text-[#b9a8c9]">The MPAW team will be in touch soon.</p></div> : <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2" data-testid="form-contact"><label className="font-mono-custom text-[9px] uppercase tracking-[.1em] text-[#bca9cd]">Name<input value={name} onChange={(event) => setName(event.target.value)} required className="mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-3 py-3 font-sans text-sm text-[#f9efff] outline-none placeholder:text-[#877a99] focus:border-[#75ddff]" placeholder="A fellow pawrson" data-testid="input-contact-name" /></label><label className="font-mono-custom text-[9px] uppercase tracking-[.1em] text-[#bca9cd]">Email<input value={email} onChange={(event) => setEmail(event.target.value)} required type="email" className="mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-3 py-3 font-sans text-sm text-[#f9efff] outline-none placeholder:text-[#877a99] focus:border-[#75ddff]" placeholder="hello@you.com" data-testid="input-contact-email" /></label><div className="flex items-center justify-between sm:col-span-2"><span className="text-[11px] text-[#8f809d]">Newsletter + early access.</span><button type="submit" className="button-glow inline-flex items-center rounded-full bg-[#efa5df] px-6 py-3 font-display text-[11px] font-bold uppercase tracking-[.08em] text-[#241338]" data-testid="button-contact-submit">Submit <Send size={14} className="ml-1" /></button></div></form>}</div></div></section>;
 }
 
 function Footer() {
-  return <footer className="bg-[#332950] px-5 pb-8 pt-14 text-[#fff8e9] sm:px-8"><div className="mx-auto max-w-[1240px]"><div className="flex flex-col justify-between gap-8 border-b border-[#51436c] pb-10 md:flex-row"><div><button onClick={() => scrollToId('#top')} className="flex items-center gap-2.5"><span className="grid h-10 w-10 place-items-center rounded-[13px] border-2 border-[#fff8e9] bg-[#f36b2b] text-lg">🐾</span><span className="font-display text-[21px] font-bold tracking-[-.06em]">META <span className="text-[#f36b2b]">PAWS</span></span></button><p className="mt-4 max-w-[300px] text-sm leading-relaxed text-[#b9a8c0]">A meme coin with a pawpose.</p></div><div className="flex flex-wrap gap-x-8 gap-y-3 text-[12px] font-semibold text-[#d4c7d8]">{navLinks.map((link) => <button key={link.href} onClick={() => scrollToId(link.href)} className="transition hover:text-[#ffda55]">{link.label}</button>)}<button onClick={() => scrollToId('#contact')} className="transition hover:text-[#ffda55]">Contact</button></div></div><div className="flex flex-col justify-between gap-3 pt-7 font-mono-custom text-[10px] uppercase tracking-[.1em] text-[#93839d] sm:flex-row"><span>© 2026 Meta Paws. A meme coin with a pawpose.</span><span className="flex items-center gap-3"><a href={externalLinks.twitter} target="_blank" rel="noreferrer">Twitter</a><a href={externalLinks.telegram} target="_blank" rel="noreferrer">Telegram</a><a href={externalLinks.instagram} target="_blank" rel="noreferrer"><Instagram size={13} /></a><a href={externalLinks.discord} target="_blank" rel="noreferrer">Discord</a></span></div></div></footer>;
+  return <footer className="border-t border-white/10 bg-[#0a0719] px-5 pb-8 pt-12 text-[#f8efff] sm:px-8"><div className="mx-auto max-w-[1240px]"><div className="flex flex-col justify-between gap-8 border-b border-white/10 pb-9 md:flex-row"><div><button onClick={() => scrollToId('#top')} className="flex items-center gap-2.5" data-testid="button-footer-home"><BrandMark /><span className="font-display text-[16px] font-bold tracking-[-.04em]">META <span className="text-[#74defb]">PAWS</span></span></button><p className="mt-4 max-w-[300px] text-sm leading-relaxed text-[#9585a7]">A meme coin with a pawpose.</p></div><div className="flex flex-wrap gap-x-7 gap-y-3 font-mono-custom text-[10px] uppercase tracking-[.1em] text-[#bca9cd]">{navLinks.map((link) => <button key={link.href} onClick={() => scrollToId(link.href)} className="transition hover:text-[#75ddff]" data-testid={`link-footer-${link.label.toLowerCase()}`}>{link.label}</button>)}<button onClick={() => scrollToId('#contact')} className="transition hover:text-[#75ddff]" data-testid="link-footer-contact">Contact</button></div></div><div className="flex flex-col justify-between gap-3 pt-7 font-mono-custom text-[9px] uppercase tracking-[.1em] text-[#766a85] sm:flex-row"><span>© 2026 Meta Paws. A meme coin with a pawpose.</span><span className="flex items-center gap-4"><a href={externalLinks.twitter} target="_blank" rel="noreferrer" data-testid="link-footer-twitter">Twitter</a><a href={externalLinks.telegram} target="_blank" rel="noreferrer" data-testid="link-footer-telegram">Telegram</a><a href={externalLinks.instagram} target="_blank" rel="noreferrer" aria-label="Meta Paws on Instagram" data-testid="link-footer-instagram"><Instagram size={13} /></a><a href={externalLinks.discord} target="_blank" rel="noreferrer" data-testid="link-footer-discord">Discord</a></span></div></div></footer>;
 }
 
 function Home() {
