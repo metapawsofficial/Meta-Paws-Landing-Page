@@ -21,6 +21,9 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
+import catHero from '@assets/1788713757627_1788808724547.png';
+import catBadge from '@assets/20260906_173531_1788808708585.jpg';
+import coinMarket from '@assets/20260907_213107_1788808769001.jpg';
 
 const queryClient = new QueryClient();
 const PRESALE_TARGET = '2026-10-05T09:43:13Z';
@@ -90,23 +93,19 @@ function scrollToId(id: string, close?: () => void) {
 
 function Mascot() {
   return (
-    <div className="relative flex h-[330px] w-full max-w-[440px] items-center justify-center sm:h-[390px]" aria-label="Cute Persian cat mascot wearing sunglasses and holding a lottery ticket">
-      <div className="absolute h-[250px] w-[250px] rounded-full bg-[#ffda55] opacity-70 blur-[1px] sm:h-[320px] sm:w-[320px]" />
+    <div className="relative flex h-[360px] w-full max-w-[460px] items-center justify-center sm:h-[430px]" aria-label="Cute Persian cat mascot wearing sunglasses and holding a lottery ticket">
+      <div className="absolute h-[270px] w-[270px] rounded-full bg-[#5cc8ff] opacity-70 blur-[1px] sm:h-[350px] sm:w-[350px]" />
+      <div className="absolute h-[315px] w-[315px] rounded-full border border-white/60 bg-white/25 shadow-[0_0_70px_rgba(75,194,255,.6)] sm:h-[400px] sm:w-[400px]" />
       <span className="star left-[8%] top-[17%]" />
       <span className="star right-[10%] top-[11%]" />
       <span className="star right-[3%] bottom-[26%]" />
       <span className="star left-[7%] bottom-[19%]" />
-      <div className="relative z-10 text-center">
-        <div className="text-[132px] leading-none drop-shadow-[6px_7px_0_#332950] sm:text-[170px]">😎</div>
-        <div className="-mt-5 text-[108px] leading-none sm:-mt-8 sm:text-[140px]">🐱</div>
-        <div className="absolute -right-4 top-[46%] rotate-[10deg] rounded-lg border-2 border-[#332950] bg-[#ffda55] px-3 py-2 text-left font-mono-custom text-[9px] font-bold leading-tight text-[#332950] shadow-[4px_4px_0_#332950] sm:right-0 sm:px-4 sm:py-3 sm:text-[11px]">
-          DAILY DRAW
-          <span className="block text-[#f36b2b]">MPAW ✦</span>
-          <small className="block mt-1 font-normal">YOU COULD WIN</small>
-        </div>
+      <div className="relative z-10 w-[285px] rotate-[-4deg] overflow-hidden rounded-[38px] border-[3px] border-[#332950] bg-[#dce8f5] p-2 shadow-[9px_10px_0_#332950] sm:w-[355px]">
+        <img src={catHero} alt="Meta Paws cat mascot" className="h-[265px] w-full rounded-[30px] object-cover sm:h-[335px]" />
+        <div className="absolute bottom-5 left-5 rounded-full border-2 border-[#332950] bg-[#ffda55] px-3 py-1.5 font-mono-custom text-[9px] font-bold uppercase text-[#332950] shadow-[3px_3px_0_#332950]">MPAW / orbit 01</div>
       </div>
-      <div className="absolute bottom-[5%] left-[5%] -rotate-12 rounded-full border-2 border-[#332950] bg-[#ffda55] px-4 py-3 text-2xl shadow-[4px_4px_0_#332950]">🐾</div>
-      <div className="absolute bottom-[7%] right-[5%] rotate-[10deg] rounded-full border-2 border-[#332950] bg-[#f36b2b] px-4 py-2 font-mono-custom text-[10px] font-bold text-[#fff8e9] shadow-[4px_4px_0_#332950]">PERSIAN POWER</div>
+      <img src={catBadge} alt="Meta Paws cat coin badge" className="absolute bottom-[4%] left-[3%] z-20 h-[84px] w-[84px] rotate-[-14deg] rounded-full border-[3px] border-[#332950] object-cover shadow-[5px_5px_0_#332950] sm:h-[104px] sm:w-[104px]" />
+      <div className="absolute bottom-[5%] right-[2%] z-20 rotate-[10deg] rounded-full border-2 border-[#332950] bg-[#f36b2b] px-4 py-2 font-mono-custom text-[10px] font-bold text-[#fff8e9] shadow-[4px_4px_0_#332950]">PERSIAN POWER</div>
     </div>
   );
 }
@@ -169,10 +168,10 @@ function Nav() {
 
 function Hero() {
   return (
-    <section id="top" className="relative grid-paper overflow-hidden border-b border-[#eadcc9] bg-[#fff8e9] pt-[126px]">
+    <section id="top" className="relative blue-grid overflow-hidden border-b border-[#b6d9ee] bg-[#f4fbff] pt-[126px]">
       <div className="mx-auto grid max-w-[1240px] items-center gap-10 px-5 pb-20 sm:px-8 lg:grid-cols-[1fr_1fr] lg:gap-12 lg:px-8 lg:pb-24">
         <div className="relative z-10">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#f0b878] bg-[#fff1d5] px-3 py-2 font-mono-custom text-[10px] font-medium uppercase tracking-[.14em] text-[#9c4f2b]"><span className="h-2 w-2 animate-pulse rounded-full bg-[#f36b2b]" /> the internet’s luckiest cat</div>
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#7cc9f2] bg-[#e1f5ff] px-3 py-2 font-mono-custom text-[10px] font-medium uppercase tracking-[.14em] text-[#176497]"><span className="h-2 w-2 animate-pulse rounded-full bg-[#168bd0]" /> the internet’s luckiest cat</div>
           <h1 className="font-display text-[64px] font-bold leading-[.9] tracking-[-.08em] text-[#332950] sm:text-[92px]">Meta <span className="text-[#f36b2b]">Paws</span></h1>
           <p className="mt-4 font-display text-[28px] font-semibold tracking-[-.05em] text-[#332950] sm:text-[38px]">Play. Win. Rescue.</p>
           <p className="mt-6 max-w-[510px] text-[16px] leading-[1.65] text-[#66586b] sm:text-[18px]">A meme coin with a real pawpose. Daily lottery, pet charity, and transparent tokenomics.</p>
@@ -184,21 +183,21 @@ function Hero() {
         </div>
         <div className="hero-visual reveal-2 relative flex items-center justify-center lg:justify-end"><div className="absolute right-[4%] top-[2%] font-mono-custom text-[10px] uppercase tracking-[.14em] text-[#927c7c]">MPAW / orbit 01</div><Mascot /></div>
       </div>
-      <div className="border-t border-[#eadcc9] bg-[#332950] py-3.5 text-[#fff8e9]"><div className="ticker marquee flex w-max items-center gap-10 font-mono-custom text-[10px] uppercase tracking-[.17em]"><span>✦ community first</span><span>✦ daily lottery</span><span>✦ pet charity</span><span>✦ locked liquidity</span><span>✦ community first</span><span>✦ daily lottery</span><span>✦ pet charity</span><span>✦ locked liquidity</span></div></div>
+      <div className="border-t border-[#153c6d] bg-[#103766] py-3.5 text-[#e6f7ff]"><div className="ticker marquee flex w-max items-center gap-10 font-mono-custom text-[10px] uppercase tracking-[.17em]"><span>✦ community first</span><span>✦ daily lottery</span><span>✦ pet charity</span><span>✦ locked liquidity</span><span>✦ community first</span><span>✦ daily lottery</span><span>✦ pet charity</span><span>✦ locked liquidity</span></div></div>
     </section>
   );
 }
 
 function Features() {
   return (
-    <section id="features" className="bg-[#f36b2b] px-5 py-20 text-[#fff8e9] sm:px-8 lg:py-28">
+    <section id="features" className="relative overflow-hidden bg-[#15558e] px-5 py-20 text-[#f6fcff] sm:px-8 lg:py-28">
       <div className="mx-auto max-w-[1080px]">
         <div className="mb-14 max-w-[560px]"><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#ffdca9]">01 / why mpaw</p><h2 className="mt-4 font-display text-[48px] font-bold leading-[.95] tracking-[-.07em] sm:text-[67px]">The good stuff<br /><span className="text-[#ffda55]">in every paw.</span></h2></div>
         <div className="space-y-5">
           {features.map((feature, index) => (
-            <article key={feature.title} className={`grid items-center gap-6 rounded-[24px] border-2 border-[#ffab60] bg-[#ee6328] p-5 sm:p-7 md:grid-cols-2 ${index % 2 ? 'md:[&>*:first-child]:order-2' : ''}`}>
-              <div className="flex min-h-[170px] items-center justify-center rounded-2xl border border-[#ffab60] bg-[#d95b28] text-[75px] sm:text-[95px]" aria-hidden="true">{feature.emoji}</div>
-              <div className={index % 2 ? 'md:pr-8' : 'md:pl-8'}><div className="font-mono-custom text-[10px] uppercase tracking-[.16em] text-[#ffc991]">0{index + 1} / feature</div><h3 className="mt-3 font-display text-[30px] font-bold tracking-[-.05em]">{feature.title}</h3><p className="mt-3 max-w-[430px] text-[15px] leading-[1.6] text-[#ffe7c7]">{feature.copy}</p><a href="#contact" className={`mt-5 inline-flex items-center rounded-full border-2 border-[#332950] px-4 py-2.5 font-display text-[11px] font-bold uppercase tracking-[.08em] text-[#fff8e9] shadow-[3px_3px_0_#332950] transition hover:-translate-y-0.5 ${feature.button}`}>Learn More <ArrowUpRight size={14} className="ml-1" /></a></div>
+            <article key={feature.title} className={`grid items-center gap-6 rounded-[24px] border-2 border-[#69c8f3] bg-[#1e6ba8] p-5 shadow-[6px_6px_0_#0a315b] sm:p-7 md:grid-cols-2 ${index % 2 ? 'md:[&>*:first-child]:order-2' : ''}`}>
+              <div className="flex min-h-[170px] items-center justify-center rounded-2xl border border-[#69c8f3] bg-[#124b80] text-[75px] sm:text-[95px]" aria-hidden="true">{feature.emoji}</div>
+              <div className={index % 2 ? 'md:pr-8' : 'md:pl-8'}><div className="font-mono-custom text-[10px] uppercase tracking-[.16em] text-[#b7e9ff]">0{index + 1} / feature</div><h3 className="mt-3 font-display text-[30px] font-bold tracking-[-.05em]">{feature.title}</h3><p className="mt-3 max-w-[430px] text-[15px] leading-[1.6] text-[#dff5ff]">{feature.copy}</p><a href="#contact" className={`mt-5 inline-flex items-center rounded-full border-2 border-[#332950] px-4 py-2.5 font-display text-[11px] font-bold uppercase tracking-[.08em] text-[#fff8e9] shadow-[3px_3px_0_#332950] transition hover:-translate-y-0.5 ${feature.button}`}>Learn More <ArrowUpRight size={14} className="ml-1" /></a></div>
             </article>
           ))}
         </div>
@@ -209,9 +208,9 @@ function Features() {
 
 function Tokenomics() {
   return (
-    <section id="tokenomics" className="bg-[#f7e6ca] px-5 py-20 sm:px-8 lg:py-28">
+    <section id="tokenomics" className="blue-grid bg-[#eaf7ff] px-5 py-20 sm:px-8 lg:py-28">
       <div className="mx-auto max-w-[1240px]"><div className="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#9c4f2b]">02 / receipts on the table</p><h2 className="mt-4 font-display text-[48px] font-bold leading-[.95] tracking-[-.07em] text-[#332950] sm:text-[66px]">Transparent<br /><span className="text-[#f36b2b]">by design.</span></h2></div><p className="max-w-[330px] text-[15px] leading-[1.6] text-[#75666e]">10,000,000,000 MPAW total supply. Every category has a job, and every number is right here.</p></div>
-        <div className="mt-12 grid gap-8 lg:grid-cols-[.9fr_1.1fr]"><div className="rounded-[25px] border-2 border-[#332950] bg-[#fff8e9] p-6 shadow-[7px_7px_0_#332950] sm:p-8"><div className="flex items-center justify-between"><span className="font-mono-custom text-[10px] uppercase tracking-[.17em] text-[#927c7c]">total supply</span><span className="rounded-full bg-[#ffda55] px-3 py-1 font-mono-custom text-[10px] font-bold text-[#332950]">fixed</span></div><p className="mt-4 font-display text-[39px] font-bold tracking-[-.08em] text-[#332950] sm:text-[54px]">10,000,000,000</p><p className="font-mono-custom text-[11px] uppercase tracking-[.12em] text-[#927c7c]">MPAW tokens</p><div className="mt-10 flex h-5 overflow-hidden rounded-full border-2 border-[#332950]">{allocations.map((item) => <span key={item.label} style={{ width: `${item.value}%`, backgroundColor: item.color }} />)}</div><p className="mt-4 text-[13px] leading-relaxed text-[#75666e]">No hidden allocations. No team dump. Just a clear plan for the community.</p></div>
+        <div className="mt-12 grid gap-8 lg:grid-cols-[.9fr_1.1fr]"><div className="rounded-[25px] border-2 border-[#332950] bg-[#faffff] p-6 shadow-[7px_7px_0_#332950] sm:p-8"><div className="flex items-center justify-between"><span className="font-mono-custom text-[10px] uppercase tracking-[.17em] text-[#927c7c]">total supply</span><span className="rounded-full bg-[#ffda55] px-3 py-1 font-mono-custom text-[10px] font-bold text-[#332950]">fixed</span></div><p className="mt-4 font-display text-[39px] font-bold tracking-[-.08em] text-[#332950] sm:text-[54px]">10,000,000,000</p><p className="font-mono-custom text-[11px] uppercase tracking-[.12em] text-[#927c7c]">MPAW tokens</p><div className="mt-10 flex h-5 overflow-hidden rounded-full border-2 border-[#332950]">{allocations.map((item) => <span key={item.label} style={{ width: `${item.value}%`, backgroundColor: item.color }} />)}</div><div className="relative mt-7 overflow-hidden rounded-2xl border-2 border-[#183e6b] bg-[#183e6b]"><img src={coinMarket} alt="Meta Paws coin on a global digital asset trading desk" className="h-[150px] w-full object-cover opacity-90" /><div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#102e54] to-transparent px-4 pb-3 pt-8 font-mono-custom text-[9px] uppercase tracking-[.12em] text-[#eaf7ff]">global digital asset / MPAW</div></div><p className="mt-4 text-[13px] leading-relaxed text-[#75666e]">No hidden allocations. No team dump. Just a clear plan for the community.</p></div>
           <div className="space-y-3">{allocations.map((item) => <div key={item.label} className="group flex items-center gap-4 rounded-2xl border border-[#eadcc9] bg-[#fff8e9] p-4 transition hover:translate-x-1 hover:border-[#f36b2b] sm:p-5"><div className="h-11 w-2 shrink-0 rounded-full" style={{ backgroundColor: item.color }} /><div className="min-w-0 flex-1"><div className="flex items-baseline justify-between gap-3"><h3 className="font-display text-[16px] font-bold text-[#332950]">{item.label}</h3><strong className="font-display text-[21px] text-[#332950]">{item.value}%</strong></div><p className="mt-1 font-mono-custom text-[10px] uppercase tracking-[.12em] text-[#927c7c]">{item.amount} tokens</p></div></div>)}</div>
         </div>
       </div>
@@ -224,7 +223,7 @@ function Roadmap() {
 }
 
 function Airdrop() {
-  return <section id="airdrop" className="relative overflow-hidden bg-[#332950] px-5 py-20 text-[#fff8e9] sm:px-8 lg:py-28"><div className="absolute -right-24 -top-24 h-[360px] w-[360px] rounded-full border-[45px] border-[#44365e]" /><div className="absolute -bottom-36 -left-24 h-[420px] w-[420px] rounded-full border-[60px] border-[#44365e]" /><div className="relative mx-auto max-w-[1240px]"><div className="grid gap-12 lg:grid-cols-[1fr_.9fr] lg:items-center"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#c4b5cc]">04 / early supporter rewards</p><h2 className="mt-4 max-w-[650px] font-display text-[49px] font-bold leading-[.94] tracking-[-.07em] sm:text-[70px]">Airdrop —<br /><span className="text-[#ffda55]">Early Supporters</span></h2><p className="mt-6 max-w-[500px] text-[16px] leading-[1.65] text-[#cfc2d4]">Only 5,000 spots available. Complete tasks to earn free MPAW.</p><p className="mt-5 max-w-[500px] text-[15px] leading-[1.65] text-[#cfc2d4]">Top 10 referrers get <strong className="text-[#ffda55]">3,000,000 MPAW each!</strong></p></div><div className="rounded-[26px] border-2 border-[#ffda55] bg-[#fff8e9] p-5 text-[#332950] shadow-[8px_8px_0_#f36b2b] sm:p-7"><div className="flex items-center justify-between"><span className="font-mono-custom text-[10px] uppercase tracking-[.15em] text-[#927c7c]">reward tiers</span><Gift size={22} className="text-[#f36b2b]" /></div><div className="mt-5 space-y-2">{[['First 1,000', '50,000 MPAW'], ['Next 1,000', '25,000 MPAW'], ['Next 1,000', '12,500 MPAW'], ['Next 2,000', '6,250 MPAW']].map(([tier, reward], i) => <div key={`${tier}-${i}`} className={`flex items-center gap-3 rounded-xl border px-3 py-3 ${i === 0 ? 'border-[#f0b878] bg-[#fff1d5]' : 'border-[#eadcc9] bg-[#f7e6ca]'}`}><div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#332950] font-mono-custom text-[10px] font-bold text-[#ffda55]">0{i + 1}</div><p className="flex-1 font-display text-[14px] font-bold">{tier}</p><strong className="font-mono-custom text-[10px] text-[#f36b2b]">{reward}</strong></div>)}</div><a href={externalLinks.form} target="_blank" rel="noreferrer" className="button-pop mt-6 flex w-full items-center justify-center rounded-full border-2 border-[#332950] bg-[#f36b2b] px-5 py-3 font-display text-[12px] font-bold uppercase tracking-[.08em] text-[#fff8e9] shadow-[3px_3px_0_#332950]">I want to be among the first <ArrowUpRight size={15} className="ml-1" /></a></div></div></div></section>;
+  return <section id="airdrop" className="relative overflow-hidden bg-[#0b2c55] px-5 py-20 text-[#f4fbff] sm:px-8 lg:py-28"><div className="absolute -right-24 -top-24 h-[360px] w-[360px] rounded-full border-[45px] border-[#164b7d]" /><div className="absolute -bottom-36 -left-24 h-[420px] w-[420px] rounded-full border-[60px] border-[#164b7d]" /><div className="relative mx-auto max-w-[1240px]"><div className="grid gap-12 lg:grid-cols-[1fr_.9fr] lg:items-center"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#a9ddf6]">04 / early supporter rewards</p><h2 className="mt-4 max-w-[650px] font-display text-[49px] font-bold leading-[.94] tracking-[-.07em] sm:text-[70px]">Airdrop —<br /><span className="text-[#5cc8ff]">Early Supporters</span></h2><p className="mt-6 max-w-[500px] text-[16px] leading-[1.65] text-[#d9f2ff]">Only 5,000 spots available. Complete tasks to earn free MPAW.</p><p className="mt-5 max-w-[500px] text-[15px] leading-[1.65] text-[#d9f2ff]">Top 10 referrers get <strong className="text-[#ffda55]">3,000,000 MPAW each!</strong></p></div><div className="rounded-[26px] border-2 border-[#5cc8ff] bg-[#faffff] p-5 text-[#332950] shadow-[8px_8px_0_#ffda55] sm:p-7"><div className="flex items-center justify-between"><span className="font-mono-custom text-[10px] uppercase tracking-[.15em] text-[#42718d]">reward tiers</span><Gift size={22} className="text-[#168bd0]" /></div><div className="mt-5 space-y-2">{[['First 1,000', '50,000 MPAW'], ['Next 1,000', '25,000 MPAW'], ['Next 1,000', '12,500 MPAW'], ['Next 2,000', '6,250 MPAW']].map(([tier, reward], i) => <div key={`${tier}-${i}`} className={`flex items-center gap-3 rounded-xl border px-3 py-3 ${i === 0 ? 'border-[#7cc9f2] bg-[#e1f5ff]' : 'border-[#b6d9ee] bg-[#edf8ff]'}`}><div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#103766] font-mono-custom text-[10px] font-bold text-[#ffda55]">0{i + 1}</div><p className="flex-1 font-display text-[14px] font-bold">{tier}</p><strong className="font-mono-custom text-[10px] text-[#168bd0]">{reward}</strong></div>)}</div><a href={externalLinks.form} target="_blank" rel="noreferrer" className="button-pop mt-6 flex w-full items-center justify-center rounded-full border-2 border-[#332950] bg-[#168bd0] px-5 py-3 font-display text-[12px] font-bold uppercase tracking-[.08em] text-[#faffff] shadow-[3px_3px_0_#332950]">I want to be among the first <ArrowUpRight size={15} className="ml-1" /></a></div></div></div></section>;
 }
 
 function Contact() {
