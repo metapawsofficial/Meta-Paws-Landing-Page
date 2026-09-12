@@ -165,7 +165,7 @@ function Hero() {
               <div className="hero-logo-core__halo" />
               <div className="hero-logo-core__ring hero-logo-core__ring--outer" />
               <div className="hero-logo-core__ring hero-logo-core__ring--inner" />
-              <img src={catBadge} alt="Meta Paws central cat logo" className="hero-logo-core__image" data-testid="img-central-logo" />
+              <img src={catHero} alt="Meta Paws central cat logo" className="hero-logo-core__image" data-testid="img-central-logo" />
               <span className="hero-logo-core__label">MPAW / CENTRAL PAW</span>
             </div>
             <div className="image-card float absolute bottom-[3%] left-[1%] z-30 w-[112px] rotate-[-10deg] bg-[#28184d] p-1.5 sm:bottom-[5%] sm:left-[2%] sm:w-[148px]">
