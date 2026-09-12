@@ -169,11 +169,11 @@ function Hero() {
               <span className="hero-logo-core__label">MPAW / CENTRAL PAW</span>
             </div>
             <div className="image-card float absolute bottom-[3%] left-[1%] z-30 w-[112px] rotate-[-10deg] bg-[#28184d] p-1.5 sm:bottom-[5%] sm:left-[2%] sm:w-[148px]">
-             <img src={catHero} alt="Meta Paws cat mascot wearing sunglasses" className="h-[136px] w-full rounded-[1.2rem] object-cover sm:h-[178px]" data-testid="img-hero-mascot" />
+             <img src={catBadge} alt="Meta Paws cat mascot wearing sunglasses" className="h-[136px] w-full rounded-[1.2rem] object-cover sm:h-[178px]" data-testid="img-hero-mascot" />
              <div className="absolute bottom-3 left-3 rounded-full border border-white/30 bg-[#1b1239]/75 px-2 py-1 font-mono-custom text-[7px] uppercase tracking-[.12em] text-[#e9ddf7] backdrop-blur-md">MPAW / orbit 01</div>
            </div>
            <div className="glass absolute right-[2%] top-[8%] z-30 rounded-2xl px-3 py-2 font-mono-custom text-[9px] uppercase tracking-[.12em] text-[#91e9ff] sm:right-[8%]">MPAW / 001 <Sparkles size={12} className="ml-1 inline" /></div>
-           <div className="absolute bottom-[14%] right-[1%] z-20 rounded-2xl border border-[#f0a9e4]/40 bg-[#ed9fdc]/15 px-3 py-2 font-display text-[10px] font-bold uppercase tracking-[.1em] text-[#f7d8f3] backdrop-blur-md sm:bottom-[16%] sm:right-[5%]">PERSIAN POWER</div>
+           <div className="absolute bottom-[14%] right-[1%] z-20 rounded-2xl border border-[#f0a9e4]/40 bg-[#ed9fdc]/15 px-3 py-2 font-display text-[10px] font-bold uppercase tracking-[.1em] text-[#f7d8f3] backdrop-blur-md sm:bottom-[16%] sm:right-[5%]">MPAW</div>
           </div>
       </div>
       <div className="relative border-y border-white/10 bg-[#0c0820]/45 py-3"><div className="ticker marquee flex w-max items-center gap-10 font-mono-custom text-[9px] uppercase tracking-[.18em] text-[#c2b0dc]"><span>community first</span><span className="text-[#76defb]">daily lottery</span><span className="text-[#efaae0]">pet charity</span><span className="text-[#f7d27c]">locked liquidity</span><span>community first</span><span className="text-[#76defb]">daily lottery</span><span className="text-[#efaae0]">pet charity</span><span className="text-[#f7d27c]">locked liquidity</span></div></div>
