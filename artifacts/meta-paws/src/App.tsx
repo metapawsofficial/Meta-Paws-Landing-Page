@@ -37,7 +37,7 @@ const externalLinks = {
   tiktok: 'https://www.tiktok.com/@metapaws46?_r=1&_t=ZS-99YQVin4DqO',
   email: 'mailto:Metapawsofficial@gmail.com',
   whitepaper: 'https://drive.google.com/file/d/1qesn7ilPL3qttXBK12D_D4wfjthVpQK9/view',
-  form: 'https://zesty-madeleine-b1931b.netlify.app',
+  form: 'https://gleam.io/nBDcj/metapaws-airdrop-giveaway',
   bscScan: 'https://bscscan.com/',
   contractAddress: '0x0000000000000000000000000000000000000000',
 };
