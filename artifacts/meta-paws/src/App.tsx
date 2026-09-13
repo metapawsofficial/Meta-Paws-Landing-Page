@@ -36,8 +36,10 @@ const externalLinks = {
   discord: 'https://discord.gg/FJn227UyRQ',
   tiktok: 'https://www.tiktok.com/@metapaws46?_r=1&_t=ZS-99YQVin4DqO',
   email: 'mailto:Metapawsofficial@gmail.com',
-  whitepaper: 'https://example.com/whitepaper',
-  form: 'https://forms.gle/your-google-form-link-here',
+  whitepaper: 'https://drive.google.com/file/d/1qesn7ilPL3qttXBK12D_D4wfjthVpQK9/view',
+  form: 'https://zesty-madeleine-b1931b.netlify.app',
+  bscScan: 'https://bscscan.com/',
+  contractAddress: '0x0000000000000000000000000000000000000000',
 };
 const navLinks = [
   { label: 'Home', href: '#top' },
@@ -134,6 +136,28 @@ function Nav() {
       </div>
       {open && <div className="border-t border-white/10 px-2 py-4 sm:hidden"><nav className="flex flex-col gap-3">{navLinks.map((link) => <button key={link.href} className="rounded-xl px-3 py-2 text-left font-display text-base font-semibold text-[#eee2fa]" onClick={() => scrollToId(link.href, () => setOpen(false))} data-testid={`link-mobile-${link.label.toLowerCase()}`}>{link.label}</button>)}</nav><button onClick={() => scrollToId('#airdrop', () => setOpen(false))} className="mt-3 w-full rounded-full bg-[#d98de0] py-3 font-display text-xs font-bold uppercase tracking-[.1em] text-[#241337]" data-testid="button-mobile-airdrop">Join the airdrop</button></div>}
     </header>
+  );
+}
+
+function BuyNowButton() {
+  const [isLive, setIsLive] = useState(false);
+  useEffect(() => {
+    const check = () => setIsLive(Date.parse(PRESALE_TARGET) - Date.now() <= 0);
+    check();
+    const interval = window.setInterval(check, 1000);
+    return () => window.clearInterval(interval);
+  }, []);
+  if (!isLive) {
+    return (
+      <button disabled className="inline-flex cursor-not-allowed items-center rounded-full border border-[#75ddff]/30 bg-[#75ddff]/5 px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.1em] text-[#75ddff]/40" title="Contract will be live after presale starts">
+        Buy Now <LockKeyhole size={13} className="ml-1" />
+      </button>
+    );
+  }
+  return (
+    <a href={externalLinks.bscScan} target="_blank" rel="noreferrer" className="button-glow inline-flex items-center rounded-full bg-[#5bdcff] px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.1em] text-[#21113b]">
+      Buy Now <ArrowUpRight size={15} className="ml-1" />
+    </a>
   );
 }
 
@@ -240,7 +264,7 @@ function Roadmap() {
 }
 
  function Airdrop() {
-  return <section id="airdrop" className="section-rose relative overflow-hidden px-5 py-24 sm:px-8 lg:py-32" data-testid="section-airdrop"><div className="absolute -right-36 -top-36 h-[500px] w-[500px] rounded-full border-[1px] border-[#ef9edc]/20 shadow-[0_0_100px_rgba(239,158,220,.12)]" /><div className="absolute -bottom-48 -left-48 h-[520px] w-[520px] rounded-full border-[1px] border-[#71defd]/20" /><div className="relative mx-auto max-w-[900px]"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#74defb]">04 / early supporter rewards</p><h2 className="mt-4 max-w-[650px] font-display text-[49px] font-bold leading-[.9] tracking-[-.08em] text-[#f9efff] sm:text-[72px]">Airdrop —<br /><span className="text-[#efa5df]">Early Supporters</span></h2><p className="mt-6 max-w-[500px] text-[15px] leading-[1.75] text-[#c2b1d3]">Only 5,000 spots available. Complete tasks to earn free MPAW.</p><p className="mt-5 max-w-[500px] text-[15px] leading-[1.75] text-[#c2b1d3]">Top 10 referrers get <strong className="text-[#f7d27c]">3,000,000 MPAW each!</strong></p><div className="airdrop-ladder mt-9" data-testid="airdrop-visual-module"><div className="airdrop-ladder__line" />{[['First 1,000', '50,000 MPAW'], ['Next 1,000', '25,000 MPAW'], ['Next 1,000', '12,500 MPAW'], ['Next 2,000', '6,250 MPAW']].map(([tier, reward], index) => <div className={`airdrop-step airdrop-step--${index + 1}`} key={`${tier}-${index}`}><div className="airdrop-step__number">{index + 1}</div><div className="airdrop-step__copy"><strong>{tier}</strong><span>{reward}</span></div><div className="airdrop-step__spark">{index === 0 ? <Gift size={18} /> : <Sparkles size={17} />}</div></div>)}</div><a href={externalLinks.form} target="_blank" rel="noreferrer" className="button-glow mt-7 inline-flex items-center rounded-full bg-[#75ddff] px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.08em] text-[#201137]" data-testid="link-airdrop-form">I want to be among the first <ArrowUpRight size={15} className="ml-1" /></a></div></div></section>;
+  return <section id="airdrop" className="section-rose relative overflow-hidden px-5 py-24 sm:px-8 lg:py-32" data-testid="section-airdrop"><div className="absolute -right-36 -top-36 h-[500px] w-[500px] rounded-full border-[1px] border-[#ef9edc]/20 shadow-[0_0_100px_rgba(239,158,220,.12)]" /><div className="absolute -bottom-48 -left-48 h-[520px] w-[520px] rounded-full border-[1px] border-[#71defd]/20" /><div className="relative mx-auto max-w-[900px]"><div><p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#74defb]">04 / early supporter rewards</p><h2 className="mt-4 max-w-[650px] font-display text-[49px] font-bold leading-[.9] tracking-[-.08em] text-[#f9efff] sm:text-[72px]">Airdrop —<br /><span className="text-[#efa5df]">Early Supporters</span></h2><p className="mt-6 max-w-[500px] text-[15px] leading-[1.75] text-[#c2b1d3]">Only 5,000 spots available. Complete tasks to earn free MPAW.</p><p className="mt-5 max-w-[500px] text-[15px] leading-[1.75] text-[#c2b1d3]">Top 10 referrers get <strong className="text-[#f7d27c]">3,000,000 MPAW each!</strong></p><div className="airdrop-ladder mt-9" data-testid="airdrop-visual-module"><div className="airdrop-ladder__line" />{[['First 1,000', '50,000 MPAW'], ['Next 1,000', '25,000 MPAW'], ['Next 1,000', '12,500 MPAW'], ['Next 2,000', '6,250 MPAW']].map(([tier, reward], index) => <div className={`airdrop-step airdrop-step--${index + 1}`} key={`${tier}-${index}`}><div className="airdrop-step__number">{index + 1}</div><div className="airdrop-step__copy"><strong>{tier}</strong><span>{reward}</span></div><div className="airdrop-step__spark">{index === 0 ? <Gift size={18} /> : <Sparkles size={17} />}</div></div>)}</div><a href={externalLinks.form} target="_blank" rel="noreferrer" className="button-glow mt-7 inline-flex items-center rounded-full bg-[#75ddff] px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.08em] text-[#201137]" data-testid="link-airdrop-form">Claim Your Free MPAW <ArrowUpRight size={15} className="ml-1" /></a></div></div></section>;
 }
 
 function Contact() {
