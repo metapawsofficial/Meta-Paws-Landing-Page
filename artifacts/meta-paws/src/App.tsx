@@ -1,6 +1,8 @@
 import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserProvider, Contract, parseEther, formatEther } from 'ethers';
 import {
+  AlertCircle,
   ArrowDownRight,
   ArrowUpRight,
   Check,
@@ -8,6 +10,7 @@ import {
   Gift,
   Heart,
   Instagram,
+  Loader2,
   LockKeyhole,
   Menu,
   MessageCircle,
@@ -17,6 +20,7 @@ import {
   ShieldCheck,
   Sparkles,
   Ticket,
+  Wallet,
   X,
 } from 'lucide-react';
 import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
@@ -29,6 +33,15 @@ import catBadge from '@assets/20260906_173531_1788808708585.jpg';
 
 const queryClient = new QueryClient();
 const PRESALE_TARGET = '2026-10-05T09:43:13Z';
+const PRESALE_ADDRESS = '0x3372a5a867beb92075c3aa9ef55a65f191ce6679';
+const PRESALE_ABI = [
+  'function buyTokens() external payable',
+  'function currentStage() view returns (uint256)',
+  'function stages(uint256) view returns (uint256 rate, uint256 allocation, uint256 sold)',
+  'function minContribution() view returns (uint256)',
+  'function maxContribution() view returns (uint256)',
+  'function presaleEnded() view returns (bool)',
+];
 const externalLinks = {
   telegram: 'https://t.me/mpawofficialx',
   twitter: 'https://x.com/MPAWofficialx',
@@ -38,9 +51,8 @@ const externalLinks = {
   email: 'mailto:Metapawsofficial@gmail.com',
   whitepaper: 'https://drive.google.com/file/d/1qesn7ilPL3qttXBK12D_D4wfjthVpQK9/view',
   form: 'https://gleam.io/nBDcj/metapaws-airdrop-giveaway',
-  bscScan: 'https://bscscan.com/',
-  contractAddress: '0x0000000000000000000000000000000000000000',
-};
+  bscScan: 'https://bscscan.com/token/0xEe395Df09Be4C76C521DE57975Fee85465FaC511',
+  contractAddress: '0xEe395Df09Be4C76C521DE57975Fee85465FaC511',
 const navLinks = [
   { label: 'Home', href: '#top' },
   { label: 'Features', href: '#features' },
@@ -139,25 +151,305 @@ function Nav() {
   );
 }
 
+function BuyModal({ onClose }: { onClose: () => void }) {
+  const [account, setAccount] = useState<string | null>(null);
+  const [amount, setAmount] = useState('0.1');
+  const [rate, setRate] = useState<number>(500000);
+  const [stage, setStage] = useState<number>(0);
+  const [minC, setMinC] = useState('0.01');
+  const [maxC, setMaxC] = useState('5');
+  const [loading, setLoading] = useState(false);
+  const [connecting, setConnecting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
+  const getEthereum = () => (window as any).ethereum;
+
+  const connect = async () => {
+    setError(null);
+    setConnecting(true);
+    try {
+      const eth = getEthereum();
+      if (!eth) {
+        setError('No Web3 wallet detected. Please install MetaMask, Trust Wallet, or another supported wallet.');
+        return;
+      }
+      const accounts = await eth.request({ method: 'eth_requestAccounts' });
+      if (!accounts || accounts.length === 0) {
+        setError('No accounts found.');
+        return;
+      }
+      setAccount(accounts[0]);
+      try {
+        await eth.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] });
+      } catch (sw: any) {
+        if (sw?.code === 4902) {
+          await eth.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: '0x38',
+              chainName: 'BNB Smart Chain',
+              nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+              rpcUrls: ['https://bsc-dataseed.binance.org/'],
+              blockExplorerUrls: ['https://bscscan.com/'],
+            }],
+          });
+        }
+      }
+    } catch (e: any) {
+      setError(e?.message || 'Failed to connect wallet.');
+    } finally {
+      setConnecting(false);
+    }
+  };
+
+  useEffect(() => {
+    const eth = getEthereum();
+    if (!eth) return;
+    const onAccountsChanged = (accs: string[]) => setAccount(accs?.[0] || null);
+    const onChainChanged = () => window.location.reload();
+    eth.on?.('accountsChanged', onAccountsChanged);
+    eth.on?.('chainChanged', onChainChanged);
+    return () => {
+      eth.removeListener?.('accountsChanged', onAccountsChanged);
+      eth.removeListener?.('chainChanged', onChainChanged);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!account) return;
+    (async () => {
+      try {
+        const provider = new BrowserProvider(getEthereum());
+        const c = new Contract(PRESALE_ADDRESS, PRESALE_ABI, provider);
+        const [cs, mn, mx] = await Promise.all([
+          c.currentStage(),
+          c.minContribution(),
+          c.maxContribution(),
+        ]);
+        setStage(Number(cs));
+        setMinC(formatEther(mn));
+        setMaxC(formatEther(mx));
+        const sd = await c.stages(Number(cs));
+        setRate(Number(sd.rate));
+      } catch (e) {
+        console.error('Failed to load presale data:', e);
+      }
+    })();
+  }, [account]);
+
+  const buy = async () => {
+    setError(null);
+    setSuccess(null);
+
+    const parsed = Number(amount);
+    if (Number.isNaN(parsed) || parsed <= 0) {
+      setError('Please enter a valid amount.');
+      return;
+    }
+    if (parsed < Number(minC)) {
+      setError(`Minimum contribution is ${minC} BNB.`);
+      return;
+    }
+    if (parsed > Number(maxC)) {
+      setError(`Maximum contribution is ${maxC} BNB.`);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const provider = new BrowserProvider(getEthereum());
+      const signer = await provider.getSigner();
+      const c = new Contract(PRESALE_ADDRESS, PRESALE_ABI, signer);
+      const tx = await c.buyTokens({ value: parseEther(amount) });
+      setSuccess(`Transaction sent: ${tx.hash.slice(0, 10)}... waiting for confirmation.`);
+      await tx.wait();
+      setSuccess(`Success! You received approximately ${(parsed * rate).toLocaleString()} MPAW.`);
+    } catch (e: any) {
+      setError(e?.reason || e?.shortMessage || e?.message || 'Transaction failed.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const est = Number(amount) > 0 ? Number(amount) * rate : 0;
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="max-h-[90vh] w-full max-w-[480px] overflow-y-auto rounded-[2rem] border border-[#75ddff]/30 bg-[#15102f] p-6 shadow-[0_0_60px_rgba(117,221,255,.2)] sm:p-8"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between">
+          <h3 className="font-display text-2xl font-bold text-[#f8efff]">Buy MPAW</h3>
+          <button
+            onClick={onClose}
+            className="rounded-full p-2 text-[#b9a7d2] transition hover:bg-white/5"
+          >
+            <X size={20} />
+          </button>
+        </div>
+        <p className="mt-2 text-xs text-[#8f809d]">
+          Purchase Meta Paws tokens at the current presale stage.
+        </p>
+
+        {!account ? (
+          <>
+            <button
+              onClick={connect}
+              disabled={connecting}
+              className={`mt-6 flex w-full items-center justify-center rounded-full px-6 py-4 font-display text-sm font-bold uppercase tracking-[.08em] ${
+                connecting
+                  ? 'cursor-not-allowed bg-[#75ddff]/20 text-[#75ddff]/40'
+                  : 'button-glow bg-[#75ddff] text-[#21113b]'
+              }`}
+            >
+              {connecting ? (
+                <>
+                  <Loader2 size={18} className="mr-2 animate-spin" /> Connecting...
+                </>
+              ) : (
+                <>
+                  <Wallet size={18} className="mr-2" /> Connect Wallet
+                </>
+              )}
+            </button>
+            <p className="mt-3 text-center text-[10px] uppercase tracking-[.14em] text-[#8f809d]">
+              MetaMask · Trust · Coinbase · OKX · Bitget · Binance
+            </p>
+          </>
+        ) : (
+          <>
+            <div className="mt-5 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+              <p className="font-mono-custom text-[9px] uppercase tracking-[.14em] text-[#8f809d]">
+                Connected
+              </p>
+              <p className="mt-1 font-mono text-xs text-[#f8efff]">
+                {account.slice(0, 6)}...{account.slice(-4)}
+              </p>
+            </div>
+
+            <div className="mt-3 flex justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+              <div>
+                <p className="font-mono-custom text-[9px] uppercase tracking-[.14em] text-[#8f809d]">
+                  Stage
+                </p>
+                <p className="mt-1 font-display text-lg font-bold text-[#75ddff]">
+                  {stage + 1}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="font-mono-custom text-[9px] uppercase tracking-[.14em] text-[#8f809d]">
+                  Rate
+                </p>
+                <p className="mt-1 font-display text-sm font-bold text-[#efa5df]">
+                  {rate.toLocaleString()} MPAW/BNB
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <label className="font-mono-custom text-[10px] uppercase tracking-[.12em] text-[#bca9cd]">
+                Amount in BNB
+              </label>
+              <input
+                type="number"
+                step="0.01"
+                min={minC}
+                max={maxC}
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-lg text-[#f8efff] outline-none focus:border-[#75ddff]"
+              />
+              <p className="mt-2 text-xs text-[#8f809d]">
+                Min: {minC} BNB · Max: {maxC} BNB
+              </p>
+            </div>
+
+            <div className="mt-4 rounded-xl border border-[#efa5df]/30 bg-[#efa5df]/5 px-4 py-3">
+              <p className="font-mono-custom text-[9px] uppercase tracking-[.14em] text-[#efa5df]">
+                You will receive
+              </p>
+              <p className="mt-1 font-display text-2xl font-bold text-[#f8efff]">
+                {est.toLocaleString()} MPAW
+              </p>
+            </div>
+
+            <button
+              onClick={buy}
+              disabled={loading}
+              className={`mt-5 flex w-full items-center justify-center rounded-full px-6 py-4 font-display text-sm font-bold uppercase tracking-[.08em] ${
+                loading
+                  ? 'cursor-not-allowed bg-[#75ddff]/20 text-[#75ddff]/40'
+                  : 'button-glow bg-[#75ddff] text-[#21113b]'
+              }`}
+            >
+              {loading ? (
+                <>
+                  <Loader2 size={18} className="mr-2 animate-spin" /> Processing...
+                </>
+              ) : (
+                <>
+                  Buy Now <ArrowUpRight size={18} className="ml-2" />
+                </>
+              )}
+            </button>
+
+            {error && (
+              <div className="mt-4 flex items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3">
+                <AlertCircle size={16} className="mt-0.5 flex-shrink-0 text-red-400" />
+                <p className="text-xs text-red-200">{error}</p>
+              </div>
+            )}
+            {success && (
+              <div className="mt-4 flex items-start gap-2 rounded-xl border border-green-500/30 bg-green-500/10 p-3">
+                <Check size={16} className="mt-0.5 flex-shrink-0 text-green-400" />
+                <p className="text-xs text-green-200">{success}</p>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function BuyNowButton() {
   const [isLive, setIsLive] = useState(false);
+  const [open, setOpen] = useState(false);
+
   useEffect(() => {
     const check = () => setIsLive(Date.parse(PRESALE_TARGET) - Date.now() <= 0);
     check();
-    const interval = window.setInterval(check, 1000);
-    return () => window.clearInterval(interval);
+    const i = window.setInterval(check, 1000);
+    return () => window.clearInterval(i);
   }, []);
+
   if (!isLive) {
     return (
-      <button disabled className="inline-flex cursor-not-allowed items-center rounded-full border border-[#75ddff]/30 bg-[#75ddff]/5 px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.1em] text-[#75ddff]/40" title="Contract will be live after presale starts">
+      <button
+        disabled
+        className="inline-flex cursor-not-allowed items-center rounded-full border border-[#75ddff]/30 bg-[#75ddff]/5 px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.1em] text-[#75ddff]/40"
+        title="Presale starts 5 Oct 2026, 09:43 UTC"
+      >
         Buy Now <LockKeyhole size={13} className="ml-1" />
       </button>
     );
   }
+
   return (
-    <a href={externalLinks.bscScan} target="_blank" rel="noreferrer" className="button-glow inline-flex items-center rounded-full bg-[#5bdcff] px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.1em] text-[#21113b]">
-      Buy Now <ArrowUpRight size={15} className="ml-1" />
-    </a>
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        className="button-glow inline-flex items-center rounded-full bg-[#5bdcff] px-5 py-3.5 font-display text-[11px] font-bold uppercase tracking-[.1em] text-[#21113b]"
+      >
+        Buy Now <ArrowUpRight size={15} className="ml-1" />
+      </button>
+      {open && <BuyModal onClose={() => setOpen(false)} />}
+    </>
   );
 }
 
@@ -276,7 +568,7 @@ function Contact() {
 }
 
 function SocialLinks() {
-  return <section className="social-strip px-5 py-10 sm:px-8" data-testid="section-social-links"><div className="mx-auto flex max-w-[1240px] flex-col gap-5 rounded-[2rem] border border-[#7cdfff]/20 bg-[#15102f]/70 p-5 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between sm:p-6"><div><p className="font-mono-custom text-[9px] uppercase tracking-[.18em] text-[#74defb]">official channels</p><p className="mt-2 text-sm text-[#bca9cd]">Follow the pack, read the whitepaper, and stay close to the pawpose.</p></div><div className="flex flex-wrap items-center gap-2"><a href={externalLinks.whitepaper} target="_blank" rel="noreferrer" className="social-link social-link--primary" data-testid="link-social-whitepaper">Whitepaper <ArrowUpRight size={13} /></a><a href={externalLinks.telegram} target="_blank" rel="noreferrer" className="social-link" data-testid="link-social-telegram">Telegram</a><a href={externalLinks.twitter} target="_blank" rel="noreferrer" className="social-link" data-testid="link-social-twitter">X</a><a href={externalLinks.instagram} target="_blank" rel="noreferrer" className="social-link" data-testid="link-social-instagram">Instagram</a><a href={externalLinks.discord} target="_blank" rel="noreferrer" className="social-link" data-testid="link-social-discord">Discord</a><a href={externalLinks.tiktok} target="_blank" rel="noreferrer" className="social-link" data-testid="link-social-tiktok">TikTok</a><a href={externalLinks.email} className="social-link" data-testid="link-social-email">Email</a></div></div></section>;
+  return <section className="social-strip px-5 py-10 sm:px-8" data-testid="section-social-links"><div className="mx-auto flex max-w-[1240px] flex-col gap-5 rounded-[2rem] border border-[#7cdfff]/20 bg-[#15102f]/70 p-5 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between sm:p-6"><div><p className="font-mono-custom text-[9px] uppercase tracking-[.18em] text-[#74defb]">official channels</p><p className="mt-2 text-sm text-[#bca9cd]">Follow the pack, read the whitepaper, and stay close to the pawpose.</p></div><div className="flex flex-wrap items-center gap-2"><a href={externalLinks.whitepaper} target="_blank" rel="noreferrer" className="social-link social-link--primary" data-testid="link-social-whitepaper">Whitepaper <ArrowUpRight size={13} /></a><a href={externalLinks.telegram} target="_blank" rel="noreferrer" className="social-link" data-testid="link-social-telegram">Telegram</a><a href={externalLinks.twitter} target="_blank" rel="noreferrer" className="social-link" data-testid="link-social-twitter">X</a><a href={externalLinks.instagram} target="_blank" rel="noreferrer" className="social-link" data-testid="link-social-instagram">Instagram</a><a href={externalLinks.discord} target="_blank" rel="noreferrer" className="social-link" data-testid="link-social-discord">Discord</a><a href={externalLinks.tiktok} target="_blank" rel="noreferrer" className="social-link" data-testid="link-social-tiktok">TikTok</a><a href={externalLinks.email} className="social-link" data-testid="link-social-email">metapawsofficial@gmail.com</a></div></div></section>;
 }
 
 function Footer() {
